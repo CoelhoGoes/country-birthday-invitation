@@ -1,4 +1,5 @@
 import { RsvpForm } from "@/components/RsvpForm";
+import { eventConfig } from "@/lib/eventConfig";
 
 function TodoPlaceholder({ label }: { label: string }) {
   return (
@@ -18,22 +19,27 @@ export default function Home() {
             Last Rodeo
           </h1>
           <p className="font-pop text-lg text-marrom-dark">
-            O aniversário de <TodoPlaceholder label="nome do(a) aniversariante" />
+            O aniversário de{" "}
+            {eventConfig.guestOfHonorName ?? (
+              <TodoPlaceholder label="nome do(a) aniversariante" />
+            )}
           </p>
         </section>
 
         <section className="w-full rounded-lg border-2 border-marrom bg-white/70 p-6 font-pop text-marrom-dark shadow-md">
           <p className="mb-4">
-            <TodoPlaceholder label="texto/mensagem do convite" />
+            {eventConfig.invitationMessage ?? (
+              <TodoPlaceholder label="texto/mensagem do convite" />
+            )}
           </p>
           <div className="flex flex-col gap-2 text-left">
             <p>
               <span className="font-semibold">📅 Data e horário: </span>
-              <TodoPlaceholder label="data e horário" />
+              {eventConfig.dateTime ?? <TodoPlaceholder label="data e horário" />}
             </p>
             <p>
               <span className="font-semibold">📍 Local: </span>
-              <TodoPlaceholder label="local do evento" />
+              {eventConfig.location ?? <TodoPlaceholder label="local do evento" />}
             </p>
           </div>
         </section>
