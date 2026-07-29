@@ -35,6 +35,10 @@ Detalhes e justificativas completas em `docs/tech-stack.md`.
    confirmar, hover em botões). Ver `docs/design-reference.md` para
    sugestões de sons e fontes gratuitas. Sempre com opção de mute — nunca
    tocar áudio alto automaticamente sem interação do usuário.
+5. **Lista de presentes** — seção na própria página com as sugestões de
+   presente (mantendo o estilo de colagem), com um botão de download do
+   PDF correspondente. Detalhes e texto completo em
+   `docs/design-reference.md`.
 
 ## Estrutura de projeto esperada
 ```
@@ -50,6 +54,7 @@ Detalhes e justificativas completas em `docs/tech-stack.md`.
   /supabase.ts            → client do Supabase
 /public
   /sounds/                → arquivos de áudio
+  /downloads/             → PDF da lista de presentes (ver public-assets/)
 /docs                     → esta pasta de contexto (manter no repo é opcional)
 ```
 
@@ -69,8 +74,14 @@ Detalhes e justificativas completas em `docs/tech-stack.md`.
 - Não adicionar autenticação de usuário completa (login de convidado) — não
   faz parte do escopo, apenas nome + confirmação.
 
-## Dados do evento (preencher antes de começar a implementação de conteúdo)
-- Data e horário: `TODO`
-- Local: `TODO`
-- Texto/mensagem do convite: `TODO`
-- Paleta de cores confirmada: rosa, marrom, prata (ver `docs/design-reference.md`)
+## Dados do evento (confirmados)
+- Evento: **Welly's Last Rodeo!**
+- Data e horário: **Sexta, 14 Agosto — 20h**
+- Local: **Torre Solazzo, Trav. Humaitá, 1301**
+- Frase de destaque: "Somente Cowgirls e Cowboys Entram!"
+- Paleta de cores: rosa, marrom, dourado/prata (sem laranja — ver
+  `docs/design-reference.md` para detalhes)
+- Estilo visual definitivo: **colagem/scrapbook digital** (stickers PNG
+  transparentes sobre fundo com textura de papel), não a ilustração
+  line-art simples. Ver `docs/design-reference.md` para especificação
+  completa do componente de sticker, fontes e responsividade.
