@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { Howl } from "howler";
-import { useSound } from "@/components/SoundProvider";
 
 type SoundButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   hoverSoundSrc?: string;
@@ -11,8 +10,7 @@ type SoundButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 /**
  * Botão reutilizável que toca efeitos sonoros no hover e no click.
- * Respeita o mute global (SoundProvider) e nunca reproduz áudio sem
- * interação do usuário.
+ * Nunca reproduz áudio sem interação do usuário (só em hover/click).
  */
 export function SoundButton({
   hoverSoundSrc = "/sounds/spur-hover.mp3",
@@ -23,7 +21,6 @@ export function SoundButton({
   children,
   ...props
 }: SoundButtonProps) {
-  const { muted } = useSound();
   const hoverHowl = useRef<Howl | null>(null);
   const clickHowl = useRef<Howl | null>(null);
 
@@ -46,11 +43,11 @@ export function SoundButton({
       {...props}
       className={className}
       onMouseEnter={(event) => {
-        if (!muted) getHoverHowl().play();
+        getHoverHowl().play();
         onMouseEnter?.(event);
       }}
       onClick={(event) => {
-        if (!muted) getClickHowl().play();
+        getClickHowl().play();
         onClick?.(event);
       }}
     >
