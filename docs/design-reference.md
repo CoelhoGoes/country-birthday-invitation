@@ -432,5 +432,135 @@ marrom dos botões, etc.).
    tipografia).
 6. Paleta: corrigir hex em `tailwind.config.ts` conforme referências.
 
+## Revisão 5 — Bugs críticos de responsividade no hero mobile
+Após a Revisão 4, o hero ficou bom em telas mobile maiores (~425px) mas
+quebra em telas menores (320-375px). Analisando o `app/page.tsx` atual,
+há dois bugs de layout (não é só questão de escala). **Piso de suporte
+alvo: 360px** (Android moderno). Não é necessário otimizar abaixo de
+360px, mas nada deve estourar visualmente.
+
+### Bug 1 — Foto polaroid com `width="150%"` (CRÍTICO)
+No bloco de acentos do hero mobile, a `polaroid-photo.png` está com
+`width="150%"`, o que a torna 1,5× mais larga que a tela inteira. Como é
+`position: absolute` a partir de `left="25%"`, ela estoura a borda direita
+e é cortada pelo `overflow-x-hidden` do `<main>` — por isso aparece
+gigante e cortada. **Correção:** reduzir para um valor coerente com o
+protótipo (~42-46%), reposicionando `left`/`top` para que a foto fique à
+direita, com destaque (âncora visual), mas inteira e sem cobrir texto.
+
+### Bug 2 — `-mt-20` fixo causando colisão texto × stickers
+O bloco de texto do hero usa `-mt-20` (margem negativa fixa de 80px) para
+subir e encostar na moldura de stickers do topo. Como é um valor absoluto,
+funciona em ~425px mas em telas menores (onde os stickers já estão mais
+baixos/menores) puxa o texto para cima demais, fazendo a tagline/título
+colidir com a bola de espelho e o balão "21". **Correção:** substituir o
+`-mt-20` fixo por margens responsivas por breakpoint (ex: `-mt-12
+xs:-mt-16 sm:-mt-20`), ou reestruturar para que o espaçamento entre a
+moldura de stickers e o texto seja proporcional e não colida em nenhuma
+largura ≥360px.
+
+### Breakpoint intermediário `xs`
+O Tailwind padrão só tem `sm:` (640px) como primeiro breakpoint, deixando
+toda a faixa 320-640px com um único conjunto de valores — insuficiente,
+porque a razão texto/sticker muda muito entre 360 e 640. Adicionar um
+breakpoint custom em `tailwind.config.ts`:
+```ts
+theme: {
+  extend: {
+    screens: {
+      xs: "400px",
+    },
+    // ...resto
+  },
+}
+```
+Isso permite dois conjuntos de ajustes na faixa mobile: base (360-399px) e
+`xs:` (400-639px), antes do `sm:` (desktop). Aplicar principalmente aos
+valores que hoje são fixos: margens negativas do texto e, se necessário,
+tamanhos de fonte do título/tagline.
+
+### Escopo desta rodada (incremental)
+Corrigir **apenas os Bugs 1 e 2** (foto e colisão do texto) + adicionar o
+breakpoint `xs` para viabilizá-los. Não refinar tamanhos de fonte ou
+reposicionar outros stickers nesta rodada — validar esses dois primeiro,
+refinar o resto depois.
+
+## Revisão 6 — Refinamento de tipografia e espaçamento por breakpoint (hero mobile)
+Os bugs críticos da Revisão 5 foram resolvidos (sem colisão, foto inteira).
+Agora, refinamento fino do hero mobile. **Escopo: apenas tamanho de fonte
+do texto do hero e espaçamentos verticais. NÃO reposicionar nem
+redimensionar stickers nesta rodada.** Piso 360px, breakpoint `xs` (400px)
+já disponível.
+
+### 1. Escalonar o tamanho do título e da tagline por breakpoint
+Hoje o título usa `text-6xl` fixo e a tagline `text-2xl` fixo. Em telas
+pequenas (320-375px) o título fica grande demais, desequilibrado com o
+resto. Escalonar por breakpoint, do menor (base) ao maior:
+- Título (`h1`, fonte script Dr Sugiyama): algo como `text-4xl xs:text-5xl
+  sm:text-6xl` — ajustar os degraus até ficar proporcional em 360/390/425.
+- Tagline e frase de destaque: reduzir proporcionalmente no base (ex:
+  `text-xl xs:text-2xl`), acompanhando o título.
+- Bloco de data/local: pode reduzir levemente no base se necessário (ex:
+  `text-lg xs:text-xl`) para manter a hierarquia.
+Manter a fonte script Dr Sugiyama no título e na frase de destaque, e
+Delius no restante — só o TAMANHO muda por breakpoint, não a família.
+
+### 2. Apertar espaçamentos verticais em telas pequenas
+Em 375px e menores sobra uma área vazia de textura no centro (entre o
+endereço e os stickers de baixo), porque o texto encolhe mas os
+espaçamentos ficam. Reduzir no base e aumentar via breakpoint:
+- O `gap-3` do bloco de texto pode virar algo como `gap-2 xs:gap-3`.
+- Os espaçamentos de margem/padding entre a moldura de stickers, o bloco
+  de texto e a faixa de acentos inferior podem ser reduzidos no base e
+  restaurados no `xs:`/`sm:`, para eliminar o vazio central sem apertar
+  demais nas telas maiores.
+
+### Fora de escopo nesta rodada
+- Não mexer em posição, tamanho (`width`), `top`/`left` ou rotação de
+  nenhum `CollageSticker` do hero.
+- Não mexer no desktop.
+
+## Revisão 7 — Breakpoints nomeados alinhados a tamanhos padrão de mobile
+O breakpoint genérico `xs: 400px` (Revisão 5/6) causou pouca granularidade:
+320px e 375px caem do mesmo lado do corte (ambos abaixo de 400), então
+recebem exatamente as mesmas classes — dando a impressão de que nada mudou
+entre eles. Substituir por breakpoints nomeados alinhados aos 3 tamanhos
+de teste do usuário (os presets "Mobile S/M/L" do Chrome DevTools):
+
+```ts
+// tailwind.config.ts
+theme: {
+  extend: {
+    screens: {
+      "mobile-m": "375px", // Mobile M (Chrome DevTools preset)
+      "mobile-l": "425px", // Mobile L (Chrome DevTools preset)
+      // "sm" (640px) já existe por padrão e continua marcando a
+      // transição pro layout desktop — não remover/alterar.
+    },
+  },
+},
+```
+Com isso, a faixa mobile passa a ter 3 níveis reais de ajuste:
+- **Base (sem prefixo):** 320-374px — "Mobile S", o mais restrito.
+- **`mobile-m:`** 375-424px — "Mobile M".
+- **`mobile-l:`** 425-639px — "Mobile L", antes do `sm:` (desktop, 640px+).
+
+### Migração necessária
+Todo lugar que hoje usa o prefixo `xs:` (introduzido nas Revisões 5/6 —
+ex: `text-4xl xs:text-5xl sm:text-6xl`, `-mt-12 xs:-mt-16 sm:-mt-20`) deve
+ser reescrito com os novos prefixos nomeados, ex:
+`text-4xl mobile-m:text-[valor] mobile-l:text-5xl sm:text-6xl` — ajustando
+os degraus de valor para que as 3 larguras de teste (320/375/425) fiquem
+visivelmente distintas e proporcionais entre si, não apenas 2 estados.
+Remover o breakpoint `xs: 400px` do `tailwind.config.ts` depois da
+migração, pra não sobrar prefixo órfão.
+
+### Validação obrigatória
+Depois de aplicar, testar exatamente em 320px, 375px e 425px e confirmar
+que HÁ diferença visível de escala/espaçamento entre os três (não só
+entre "menor que 400" e "maior que 400"). Se não houver diferença
+perceptível, verificar se o dev server/build foi de fato atualizado antes
+de tirar os prints.
+
 ## Pendências restantes
 - (nenhuma pendente no momento)
