@@ -14,7 +14,7 @@ export function EventPanel() {
         width="40%"
         rotate={10}
         zIndex={3}
-        className="sm:!-top-[22%] sm:!left-[66%] sm:!w-[38%]"
+        sm={{ top: "-22%", left: "66%", width: "38%" }}
       />
 
       <p className="font-body text-xl text-marrom-dark">
