@@ -7,6 +7,8 @@ import { MobileGiftListSection } from "@/components/MobileGiftListSection";
 import { eventConfig } from "@/lib/eventConfig";
 
 export default function Home() {
+  const [titleFirstWord, ...titleRestWords] = eventConfig.title.split(" ");
+
   return (
     <main className="bg-paper min-h-screen overflow-x-hidden">
       {/* ================= MOBILE (Revisão 3 — ver docs/design-reference.md) =================
@@ -25,29 +27,29 @@ export default function Home() {
             <CollageSticker
               src="/stickers/disco-ball.png"
               alt="Bola de espelho"
-              top="-10%"
+              top="-15%"
               left="-10%"
               width="30%"
-              rotate={-6}
+              rotate={0}
               zIndex={2}
             />
             <CollageSticker
               src="/stickers/pink-ribbon.png"
               alt=""
               top="55%"
-              left="1%"
+              left="-5%"
               width="56%"
-              rotate={-8}
+              rotate={0}
               zIndex={2}
             />
 
             <CollageSticker
-              src="/stickers/disco-ball.png"
+              src="/stickers/disco-ball-2.png"
               alt="Bola de espelho"
-              top="-10%"
-              left="76%"
+              top="-15%"
+              left="75%"
               width="30%"
-              rotate={6}
+              rotate={0}
               zIndex={2}
             />
             <CollageSticker
@@ -62,66 +64,65 @@ export default function Home() {
             <CollageSticker
               src="/stickers/cowboy-hat-pink.png"
               alt="Chapéu de cowboy rosa"
-              top="45%"
-              left="64%"
+              top="-5%"
+              left="72%"
               width="34%"
               rotate={8}
               zIndex={2}
             />
           </div>
 
-          <div className="relative z-10 flex flex-col items-center gap-2 pt-6 text-center">
-            <p className="font-body text-xl text-marrom-dark">
+          <div className="relative z-10 -mt-12 mobile-m:-mt-14 mobile-l:-mt-16 sm:-mt-20 flex flex-col items-center gap-2 mobile-m:gap-2.5 mobile-l:gap-3 text-center">
+            <p className="font-body text-lg mobile-m:text-xl mobile-l:text-2xl text-marrom-dark">
               {eventConfig.tagline}
             </p>
-            <h1 className="font-script text-5xl leading-tight text-marrom-dark drop-shadow-sm">
-              {eventConfig.title}
+            <h1 className="font-script text-4xl mobile-m:text-[2.5rem] mobile-l:text-5xl sm:text-6xl leading-tight text-marrom-dark drop-shadow-sm">
+              {titleFirstWord}
+              <br />
+              {titleRestWords.join(" ")}
             </h1>
-            <div className="font-body text-lg leading-relaxed text-marrom-dark">
+            <div className="font-body text-base mobile-m:text-lg mobile-l:text-xl leading-relaxed text-marrom-dark">
               <p>{eventConfig.date}</p>
               <p>{eventConfig.time.toUpperCase()}</p>
               <p>{eventConfig.venue}</p>
               <p>{eventConfig.address}</p>
             </div>
-            <p className="font-script text-xl font-semibold text-rosa-dark">
-              {eventConfig.highlight}
-            </p>
           </div>
 
           {/* Acentos entre o texto e o card de RSVP — a foto tem destaque
               (âncora visual, tamanho comparável ao chapéu/bola de espelho) */}
-          <div className="relative mt-4 h-44 w-full">
+          <div className="relative mt-2 mobile-m:mt-3 mobile-l:mt-4 h-44 w-full">
             <CollageSticker
               src="/stickers/cowboy-boot-lasso.png"
               alt="Bota de cowboy com laço rosa"
-              top="18%"
+              top="-30%"
               left="-6%"
               width="40%"
-              rotate={-10}
+              rotate={-2}
               zIndex={2}
             />
             <CollageSticker
               src="/stickers/cow-bubblegum.png"
               alt="Vaquinha com bubblegum"
-              top="36%"
-              left="24%"
+              top="25%"
+              left="30%"
               width="34%"
-              rotate={6}
+              rotate={0}
               zIndex={3}
             />
             <CollageSticker
               src="/stickers/polaroid-photo.png"
               alt="Foto do aniversariante em moldura polaroid"
-              top="0%"
-              left="52%"
-              width="50%"
+              top="-50%"
+              left="56%"
+              width="55%"
               rotate={4}
               zIndex={4}
             />
           </div>
         </section>
 
-        <div className="flex flex-col gap-10 px-4 pb-12 pt-2">
+        <div className="flex flex-col gap-10 px-4 pb-12">
           <MobileRsvpCard />
           <MobileGiftListSection />
         </div>
@@ -139,7 +140,7 @@ export default function Home() {
               width="34%"
               rotate={0}
               zIndex={5}
-              className="sm:!w-[28%]"
+              sm={{ width: "28%" }}
             />
 
             {/* Painel de destaque — o chapéu de cowboy rosa fica preso na
@@ -160,7 +161,7 @@ export default function Home() {
               width="34%"
               rotate={-10}
               zIndex={5}
-              className="sm:!top-[74%] sm:!-left-[6%] sm:!w-[28%]"
+              sm={{ top: "74%", left: "-6%", width: "28%" }}
             />
 
             <CollageSticker
@@ -171,7 +172,7 @@ export default function Home() {
               width="34%"
               rotate={6}
               zIndex={5}
-              className="sm:!top-[80%] sm:!left-[20%] sm:!w-[28%]"
+              sm={{ top: "80%", left: "20%", width: "28%" }}
             />
 
             <CollageSticker
@@ -182,35 +183,12 @@ export default function Home() {
               width="42%"
               rotate={-4}
               zIndex={6}
-              className="sm:!top-[38%] sm:!left-[50%] sm:!w-[44%]"
+              sm={{ top: "38%", left: "50%", width: "44%" }}
             />
           </div>
         </section>
 
         {/* Zona A — pequenos acentos logo abaixo do hero, um de cada lado */}
-        <section
-          className="relative mx-auto h-16 w-full max-w-2xl px-4 sm:h-24"
-          aria-hidden
-        >
-          <CollageSticker
-            src="/stickers/sheriff-star.png"
-            alt=""
-            top="10%"
-            left="2%"
-            width="11%"
-            rotate={-14}
-            zIndex={1}
-          />
-          <CollageSticker
-            src="/stickers/wanted-poster.png"
-            alt=""
-            top="20%"
-            left="84%"
-            width="13%"
-            rotate={9}
-            zIndex={1}
-          />
-        </section>
 
         <div className="relative mx-auto flex w-full max-w-2xl flex-col gap-16 px-4 pb-12">
           <section className="w-full">
@@ -226,11 +204,11 @@ export default function Home() {
               longo de toda esta faixa (lista de presentes + RSVP + rodapé) */}
           <CollageSticker
             src="/stickers/cow.png"
-            alt=""
+            alt="vaca."
             top="6%"
             left="-6%"
             width="14%"
-            rotate={-8}
+            rotate={90}
             zIndex={1}
           />
           <CollageSticker

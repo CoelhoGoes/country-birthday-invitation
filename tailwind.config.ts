@@ -7,6 +7,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        // Breakpoints nomeados alinhados aos presets Mobile S/M/L do Chrome
+        // DevTools — ver docs/design-reference.md "Revisão 7". Base
+        // (sem prefixo) = 320-374px, "mobile-m" = 375-424px, "mobile-l" =
+        // 425-639px, "sm" (padrão do Tailwind) = 640px+ (desktop).
+        "mobile-m": "375px",
+        "mobile-l": "425px",
+      },
       colors: {
         rosa: {
           light: "#f6d3de",

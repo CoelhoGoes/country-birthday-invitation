@@ -70,7 +70,7 @@ export function MobileGiftListSection() {
           src="/stickers/cow.png"
           alt=""
           top="10%"
-          left="-8%"
+          left="-20%"
           width="26%"
           rotate={-8}
           zIndex={2}
@@ -79,7 +79,7 @@ export function MobileGiftListSection() {
           src="/stickers/sheriff-star.png"
           alt=""
           top="0%"
-          left="82%"
+          left="95%"
           width="18%"
           rotate={12}
           zIndex={2}
