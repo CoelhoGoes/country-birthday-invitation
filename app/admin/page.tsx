@@ -20,7 +20,7 @@ export default async function AdminPage() {
   if (error) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-prata-light px-4">
-        <p className="font-pop text-red-700">Erro ao carregar confirmações: {error.message}</p>
+        <p className="font-body text-red-700">Erro ao carregar confirmações: {error.message}</p>
       </main>
     );
   }

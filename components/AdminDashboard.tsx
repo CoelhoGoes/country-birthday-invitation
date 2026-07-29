@@ -22,30 +22,30 @@ export function AdminDashboard({ rsvps }: { rsvps: Rsvp[] }) {
     <main className="min-h-screen bg-prata-light px-4 py-10">
       <div className="mx-auto flex max-w-2xl flex-col gap-6">
         <header className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="font-western text-3xl text-marrom-dark">Confirmações — RSVP</h1>
+          <h1 className="font-display text-3xl text-marrom-dark">Confirmações — RSVP</h1>
           <div className="flex gap-2">
             <a
               href="/api/export"
-              className="rounded-md border-2 border-marrom-dark bg-marrom px-4 py-2 font-pop font-semibold text-prata-light shadow-md transition hover:bg-marrom-dark"
+              className="rounded-md border-2 border-marrom-dark bg-marrom px-4 py-2 font-body font-semibold text-prata-light shadow-md transition hover:bg-marrom-dark"
             >
               ⬇️ Exportar .xlsx
             </a>
             <button
               type="button"
               onClick={handleLogout}
-              className="rounded-md border-2 border-marrom-light bg-white px-4 py-2 font-pop font-semibold text-marrom-dark transition hover:bg-prata"
+              className="rounded-md border-2 border-marrom-light bg-white px-4 py-2 font-body font-semibold text-marrom-dark transition hover:bg-prata"
             >
               Sair
             </button>
           </div>
         </header>
 
-        <p className="font-pop text-marrom-dark">
+        <p className="font-body text-marrom-dark">
           {rsvps.length} resposta(s) — {confirmedCount} confirmada(s)
         </p>
 
         <div className="overflow-x-auto rounded-lg border-2 border-marrom bg-white shadow-md">
-          <table className="w-full text-left font-pop">
+          <table className="w-full text-left font-body">
             <thead className="bg-rosa-light text-marrom-dark">
               <tr>
                 <th className="px-4 py-2">Nome</th>
