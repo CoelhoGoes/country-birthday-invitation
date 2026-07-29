@@ -1,19 +1,27 @@
 import type { Metadata } from "next";
-import { Rye, Poppins } from "next/font/google";
+import { Dr_Sugiyama, Miltonian_Tattoo, Delius } from "next/font/google";
 import "./globals.css";
-import { SoundProvider } from "@/components/SoundProvider";
-import { MuteToggle } from "@/components/MuteToggle";
 
-const rye = Rye({
+// Tipografia definitiva (ver docs/design-reference.md — Figma):
+// Dr Sugiyama → destaques em script (título, frase de destaque)
+// Miltonian Tattoo → títulos que precisam de legibilidade
+// Delius → subtítulos, labels, itens de lista e texto de botões
+const drSugiyama = Dr_Sugiyama({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-western",
+  variable: "--font-script",
 });
 
-const poppins = Poppins({
-  weight: ["400", "600", "700"],
+const miltonianTattoo = Miltonian_Tattoo({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-pop",
+  variable: "--font-display",
+});
+
+const delius = Delius({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-body",
 });
 
 export const metadata: Metadata = {
@@ -28,11 +36,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${rye.variable} ${poppins.variable} font-pop`}>
-        <SoundProvider>
-          <MuteToggle />
-          {children}
-        </SoundProvider>
+      <body
+        className={`${drSugiyama.variable} ${miltonianTattoo.variable} ${delius.variable} font-body`}
+      >
+        {children}
       </body>
     </html>
   );

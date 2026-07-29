@@ -16,17 +16,28 @@ const config: Config = {
         marrom: {
           light: "#a9784f",
           DEFAULT: "#6b4226",
-          dark: "#3c2415",
+          // Tom de tinta usado nos destaques (label "Seu nome", título
+          // Dr Sugiyama) — mais avermelhado que o marrom padrão, conforme
+          // amostrado de docs/prototipo-mobile.png.
+          dark: "#6b1618",
         },
         prata: {
-          light: "#f1f1f0",
-          DEFAULT: "#c3c1bd",
-          dark: "#8a8884",
+          light: "#f4f4f3",
+          DEFAULT: "#b9b9b6",
+          dark: "#7a7a77",
+        },
+        kraft: {
+          light: "#f3ead0",
+          DEFAULT: "#e8d8c8",
+          dark: "#d8c2a8",
         },
       },
       fontFamily: {
-        western: ["var(--font-western)"],
-        pop: ["var(--font-pop)"],
+        // Tipografia definitiva (ver docs/design-reference.md):
+        // Dr Sugiyama (script), Miltonian Tattoo (display), Delius (body).
+        script: ["var(--font-script)"],
+        display: ["var(--font-display)"],
+        body: ["var(--font-body)"],
       },
     },
   },

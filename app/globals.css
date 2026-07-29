@@ -5,3 +5,13 @@
 body {
   background-color: theme("colors.prata.light");
 }
+
+/* Textura de papel real (docs/textura-fundo-referencia.png), com a cor
+   kraft como fallback enquanto a imagem carrega. */
+.bg-paper {
+  background-color: theme("colors.kraft.DEFAULT");
+  background-image: url("/images/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+}
