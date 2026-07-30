@@ -562,5 +562,44 @@ entre "menor que 400" e "maior que 400"). Se não houver diferença
 perceptível, verificar se o dev server/build foi de fato atualizado antes
 de tirar os prints.
 
+## Revisão 8 — Reversão: textura de fundo volta a ser CSS puro
+O usuário decidiu reverter a Revisão 4 (item 2) — a textura via
+`public/images/background.png` não era o que queria. **Voltar à textura
+via CSS puro (`feTurbulence`)**, mas com um ajuste em relação à primeira
+versão (Revisão 1/3): a versão original ficou escura/acinzentada demais.
+Esta versão corrige isso com opacidade bem menor e blend mode diferente,
+mantendo a base clara.
+
+Substituir a regra `.bg-paper` em `app/globals.css` por:
+```css
+.bg-paper {
+  background-color: #f3ead0; /* kraft.light — tom claro do papel */
+  position: relative;
+}
+
+.bg-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18; /* bem mais sutil que a tentativa anterior (era 0.5) */
+  mix-blend-mode: soft-light; /* mantém a base clara, evita escurecer/acinzentar */
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiLz48L3N2Zz4=");
+}
+```
+O conteúdo real (texto, stickers) deve ficar num elemento filho com
+`position: relative; z-index: 1` para renderizar acima do `::before`.
+Remover a referência a `background-image: url("/images/background.png")`.
+O arquivo `public/images/background.png` pode continuar no projeto (não
+precisa apagar), só não é mais referenciado em `globals.css`.
+
+**Por que a mudança de opacidade/blend mode:** a primeira tentativa usava
+`opacity: 0.5` com `mix-blend-mode: multiply`, o que escurecia a base
+proporcionalmente à intensidade do ruído — daí o aspecto acinzentado.
+`soft-light` a ~0.18 de opacidade preserva o tom claro de fundo (`kraft.light`)
+e só adiciona uma textura sutil, sem escurecer a página.
+
 ## Pendências restantes
 - (nenhuma pendente no momento)
