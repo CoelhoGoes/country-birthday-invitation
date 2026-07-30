@@ -11,17 +11,15 @@ import {
 } from "@/lib/giftListContent";
 import { downloadGiftListPdf } from "@/lib/giftListPdf";
 
-const byTitle = (title: string): GiftCategory =>
-  giftCategories.find((category) => category.title === title)!;
-
-// Agrupamento das 6 categorias reais em 4 cards, pra ficar equilibrado
-// visualmente (o protótipo mostra 3 cards de exemplo com conteúdo fake).
-const cardGroups: { categories: GiftCategory[]; ribbon: string; ribbonSide: "left" | "right" }[] = [
-  { categories: [byTitle("Maquiagem")], ribbon: "/stickers/pink-ribbon-2.png", ribbonSide: "right" },
-  { categories: [byTitle("Roupa"), byTitle("Sapato")], ribbon: "/stickers/pink-ribbon-3.png", ribbonSide: "left" },
-  { categories: [byTitle("Acessórios"), byTitle("Cosméticos")], ribbon: "/stickers/pink-ribbon-4.png", ribbonSide: "right" },
-  { categories: [byTitle("Outras ideias")], ribbon: "/stickers/pink-ribbon-2.png", ribbonSide: "left" },
-];
+// Um card por categoria (6 no total). Laço alterna entre os 3 assets
+// disponíveis e entre os lados, pra não repetir a mesma combinação em
+// cards consecutivos.
+const ribbons = ["/stickers/pink-ribbon-2.png", "/stickers/pink-ribbon-3.png", "/stickers/pink-ribbon-4.png"];
+const cardGroups = giftCategories.map((category, index) => ({
+  category,
+  ribbon: ribbons[index % ribbons.length],
+  ribbonSide: (index % 2 === 0 ? "right" : "left") as "left" | "right",
+}));
 
 function CategoryBlock({ category }: { category: GiftCategory }) {
   return (
@@ -94,23 +92,24 @@ export function MobileGiftListSection() {
       </blockquote>
 
       <div className="flex flex-col gap-6">
-        {cardGroups.map(({ categories, ribbon, ribbonSide }, index) => (
+        {cardGroups.map(({ category, ribbon, ribbonSide }) => (
           // Sem overflow-hidden aqui: o laço precisa transbordar a borda do
           // card, visível por cima (Conceito B — ver docs/design-reference.md).
-          <div key={index} className="relative rounded-2xl border-2 border-marrom-light bg-white p-5 shadow-md">
+          <div key={category.title} className="relative rounded-2xl border-2 border-marrom-light bg-white p-5 shadow-md">
             <CollageSticker
               src={ribbon}
               alt=""
-              top="-12%"
-              left={ribbonSide === "left" ? "-8%" : "84%"}
+              top={ribbonSide === "left" ? "-8%" : "-6%"}
+              left={ribbonSide === "left" ? "-8%" : "82%"}
               width="24%"
               rotate={ribbonSide === "left" ? -10 : 10}
               zIndex={20}
+              mobileL={{ top: "-12%", left: ribbonSide === "left" ? "-8%" : "84%", width: "24%" }}
+              mobileM={{ top: ribbonSide === "left" ? "-10%" : "-6%", left: ribbonSide === "left" ? "-8%" : "83%", width: "24%" }}
+
             />
-            <div className="relative z-10 flex flex-col gap-5">
-              {categories.map((category) => (
-                <CategoryBlock key={category.title} category={category} />
-              ))}
+            <div className="relative z-10">
+              <CategoryBlock category={category} />
             </div>
           </div>
         ))}

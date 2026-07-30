@@ -27,48 +27,58 @@ export default function Home() {
             <CollageSticker
               src="/stickers/disco-ball.png"
               alt="Bola de espelho"
-              top="-15%"
+              top="-20%"
               left="-10%"
-              width="30%"
+              width="40%"
               rotate={0}
               zIndex={2}
+              mobileM={{ top: "-20%", left: "-10%", width: "38%" }}
+              mobileL={{ top: "-20%", left: "-10%", width: "30%" }}
             />
             <CollageSticker
               src="/stickers/pink-ribbon.png"
               alt=""
               top="55%"
               left="-5%"
-              width="56%"
+              width="70%"
               rotate={0}
               zIndex={2}
+              mobileM={{ top: "55%", left: "-5%", width: "65%" }}
+              mobileL={{ top: "55%", left: "-5%", width: "56%" }}
             />
 
             <CollageSticker
               src="/stickers/disco-ball-2.png"
               alt="Bola de espelho"
-              top="-15%"
-              left="75%"
-              width="30%"
+              top="-20%"
+              left="65%"
+              width="41%"
               rotate={0}
               zIndex={2}
+              mobileM={{ top: "-20%", left: "67%", width: "38%" }}
+              mobileL={{ top: "-20%", left: "75%", width: "30%" }}
             />
             <CollageSticker
               src="/stickers/21-balloon.png"
               alt="Balão 21"
               top="0%"
-              left="40%"
-              width="22%"
+              left="30%"
+              width="33%"
               rotate={0}
               zIndex={2}
+              mobileM={{ top: "-2%", left: "30%", width: "30%" }}
+              mobileL={{ top: "0%", left: "40%", width: "22%" }}
             />
             <CollageSticker
               src="/stickers/cowboy-hat-pink.png"
               alt="Chapéu de cowboy rosa"
-              top="-5%"
-              left="72%"
-              width="34%"
+              top="-10%"
+              left="66%"
+              width="44%"
               rotate={8}
               zIndex={2}
+              mobileM={{ top: "-10%", left: "70%", width: "40%" }}
+              mobileL={{ top: "-10%", left: "72%", width: "34%" }}
             />
           </div>
 
@@ -93,31 +103,47 @@ export default function Home() {
               (âncora visual, tamanho comparável ao chapéu/bola de espelho) */}
           <div className="relative mt-2 mobile-m:mt-3 mobile-l:mt-4 h-44 w-full">
             <CollageSticker
+              src="/stickers/barrel.png"
+              alt="Barril"
+              top="29%"
+              left="-12%"
+              width="45%"
+              rotate={0}
+              zIndex={1}
+              mobileM={{ top: "16%", left: "-12%", width: "45%" }}
+              mobileL={{ top: "14%", left: "-12%", width: "40%" }}
+            />
+            <CollageSticker
               src="/stickers/cowboy-boot-lasso.png"
               alt="Bota de cowboy com laço rosa"
-              top="-30%"
-              left="-6%"
+              top="-10%"
+              left="2%"
               width="40%"
               rotate={-2}
               zIndex={2}
+              mobileM={{ top: "-20%", left: "-4%", width: "40%" }}
+              mobileL={{ top: "-30%", left: "-4%", width: "40%" }}
             />
             <CollageSticker
               src="/stickers/cow-bubblegum.png"
-              alt="Vaquinha com bubblegum"
-              top="25%"
+              alt="Vaquinha com chiclete"
+              top="45%"
               left="30%"
               width="34%"
               rotate={0}
               zIndex={3}
+              mobileM={{ top: "34%", left: "30%", width: "34%" }}
+              mobileL={{ top: "24%", left: "30%", width: "34%" }}
             />
             <CollageSticker
               src="/stickers/polaroid-photo.png"
               alt="Foto do aniversariante em moldura polaroid"
-              top="-50%"
+              top="-42%"
               left="56%"
               width="55%"
               rotate={4}
               zIndex={4}
+              mobileM={{ top: "-50%", left: "50%", width: "60%" }}
             />
           </div>
         </section>
