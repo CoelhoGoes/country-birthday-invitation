@@ -87,7 +87,7 @@ export function MobileGiftListSection() {
         </h2>
       </div>
 
-      <blockquote className="mb-6 rounded-2xl bg-rosa p-5 text-center font-body text-white shadow-md">
+      <blockquote className="mb-6 rounded-2xl border-2 border-rosa-dark bg-rosa p-5 text-center font-body text-white shadow-md">
         {giftListWarning}
       </blockquote>
 

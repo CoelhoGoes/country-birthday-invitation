@@ -110,7 +110,7 @@ export default function Home() {
               width="45%"
               rotate={0}
               zIndex={1}
-              mobileM={{ top: "16%", left: "-12%", width: "45%" }}
+              mobileM={{ top: "12%", left: "-12%", width: "45%" }}
               mobileL={{ top: "14%", left: "-12%", width: "40%" }}
             />
             <CollageSticker
@@ -121,7 +121,7 @@ export default function Home() {
               width="40%"
               rotate={-2}
               zIndex={2}
-              mobileM={{ top: "-20%", left: "-4%", width: "40%" }}
+              mobileM={{ top: "-24%", left: "0%", width: "40%" }}
               mobileL={{ top: "-30%", left: "-4%", width: "40%" }}
             />
             <CollageSticker
@@ -132,7 +132,7 @@ export default function Home() {
               width="34%"
               rotate={0}
               zIndex={3}
-              mobileM={{ top: "34%", left: "30%", width: "34%" }}
+              mobileM={{ top: "31%", left: "30%", width: "34%" }}
               mobileL={{ top: "24%", left: "30%", width: "34%" }}
             />
             <CollageSticker

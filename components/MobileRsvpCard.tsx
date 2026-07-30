@@ -68,7 +68,7 @@ export function MobileRsvpCard() {
       </h2>
 
       <div>
-        <label htmlFor="mobile-name" className="mb-1 block font-body font-semibold text-rosa-dark">
+        <label htmlFor="mobile-name" className="mb-1 block font-body font-semibold text-marrom-dark">
           Seu nome
         </label>
         <input
@@ -89,22 +89,20 @@ export function MobileRsvpCard() {
           <button
             type="button"
             onClick={() => setConfirmed(true)}
-            className={`flex-1 rounded-full border-2 px-4 py-2 font-body font-semibold transition ${
-              confirmed === true
-                ? "border-rosa-dark bg-rosa text-white"
-                : "border-marrom-light bg-white text-marrom-dark"
-            }`}
+            className={`flex-1 rounded-full border-2 px-4 py-2 font-body font-semibold transition ${confirmed === true
+              ? "border-rosa-dark bg-rosa text-white"
+              : "border-marrom-light bg-white text-marrom-dark"
+              }`}
           >
             Sim, vou!
           </button>
           <button
             type="button"
             onClick={() => setConfirmed(false)}
-            className={`flex-1 rounded-full border-2 px-4 py-2 font-body font-semibold transition ${
-              confirmed === false
-                ? "border-marrom-dark bg-marrom text-white"
-                : "border-marrom-light bg-white text-marrom-dark"
-            }`}
+            className={`flex-1 rounded-full border-2 px-4 py-2 font-body font-semibold transition ${confirmed === false
+              ? "border-marrom-dark bg-marrom text-white"
+              : "border-marrom-light bg-white text-marrom-dark"
+              }`}
           >
             Não vou
           </button>

@@ -46,7 +46,7 @@ export function GiftListSection() {
         </h2>
       </div>
 
-      <blockquote className="mb-6 rounded-lg border-2 border-rosa-dark/40 bg-rosa-light/60 p-4 font-body text-lg italic text-marrom-dark">
+      <blockquote className="mb-6 rounded-lg border-2 border-rosa-dark bg-rosa-light/60 p-4 font-body text-lg italic text-marrom-dark">
         {giftListWarning}
       </blockquote>
 
