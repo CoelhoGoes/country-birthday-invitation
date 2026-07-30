@@ -9,9 +9,15 @@ const config: Config = {
     extend: {
       screens: {
         // Breakpoints nomeados alinhados aos presets Mobile S/M/L do Chrome
-        // DevTools — ver docs/design-reference.md "Revisão 7". Base
-        // (sem prefixo) = 320-374px, "mobile-m" = 375-424px, "mobile-l" =
-        // 425-639px, "sm" (padrão do Tailwind) = 640px+ (desktop).
+        // DevTools — ver docs/design-reference.md "Revisão 7". Como o
+        // Tailwind é mobile-first (min-width), "mobile-s" é equivalente à
+        // base (sem prefixo) pra qualquer tela ≥320px — nosso piso de
+        // suporte já é 320px. Existe só por simetria/clareza com
+        // mobile-m/mobile-l, não muda nada visualmente.
+        // Base (sem prefixo) / "mobile-s" = 320-374px, "mobile-m" =
+        // 375-424px, "mobile-l" = 425-639px, "sm" (padrão do Tailwind) =
+        // 640px+ (desktop).
+        "mobile-s": "320px",
         "mobile-m": "375px",
         "mobile-l": "425px",
       },

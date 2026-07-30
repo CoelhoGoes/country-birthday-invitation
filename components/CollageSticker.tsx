@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 type BreakpointOverride = {
   top?: string;
   left?: string;
@@ -13,31 +15,36 @@ type Props = {
   left: string;
   width: string; // ex: "35%"
   zIndex?: number;
-  // Overrides de posição/tamanho/rotação por breakpoint — ver
-  // tailwind.config.ts para os valores de "xs" (400px) e "sm" (640px).
-  xs?: BreakpointOverride;
+  // Overrides de posição/tamanho/rotação por breakpoint. Valores em px
+  // batendo com tailwind.config.ts: "mobile-s" (320px, equivalente à base
+  // já que é o piso de suporte — existe só por simetria com mobile-m/
+  // mobile-l), "mobile-m" (375px), "mobile-l" (425px), "sm" (640px).
+  // Implementado via <style> com @media real (não classes Tailwind)
+  // porque essas classes seriam montadas em runtime e o Tailwind só
+  // enxerga classes literais no código-fonte pra gerar o CSS.
+  mobileS?: BreakpointOverride;
+  mobileM?: BreakpointOverride;
+  mobileL?: BreakpointOverride;
   sm?: BreakpointOverride;
-  // Passthrough pra casos que não cabem em xs/sm (ex: md, lg).
   className?: string;
 };
 
-// Gera algo como "sm:!top-[6%]" ou, pra valores negativos, "sm:!-top-[6%]"
-// (o Tailwind deste projeto precisa do "-" antes do nome do utilitário,
-// não dentro do colchete, pra reconhecer o valor negativo).
-function overrideClass(breakpoint: string, property: "top" | "left" | "w" | "rotate", raw: string) {
-  const isNegative = raw.startsWith("-");
-  const value = isNegative ? raw.slice(1) : raw;
-  return `${breakpoint}:!${isNegative ? "-" : ""}${property}-[${value}]`;
-}
+const BREAKPOINTS = {
+  mobileS: 320,
+  mobileM: 375,
+  mobileL: 425,
+  sm: 640,
+} as const;
 
-function buildResponsiveClasses(breakpoint: string, override?: BreakpointOverride): string[] {
-  if (!override) return [];
-  const classes: string[] = [];
-  if (override.top !== undefined) classes.push(overrideClass(breakpoint, "top", override.top));
-  if (override.left !== undefined) classes.push(overrideClass(breakpoint, "left", override.left));
-  if (override.width !== undefined) classes.push(overrideClass(breakpoint, "w", override.width));
-  if (override.rotate !== undefined) classes.push(overrideClass(breakpoint, "rotate", `${override.rotate}deg`));
-  return classes;
+function overrideDeclarations(override: BreakpointOverride): string {
+  const decls: string[] = [];
+  if (override.top !== undefined) decls.push(`top:${override.top} !important`);
+  if (override.left !== undefined) decls.push(`left:${override.left} !important`);
+  if (override.width !== undefined) decls.push(`width:${override.width} !important`);
+  if (override.rotate !== undefined) {
+    decls.push(`transform:rotate(${override.rotate}deg) !important`);
+  }
+  return decls.join(";");
 }
 
 export function CollageSticker({
@@ -48,33 +55,48 @@ export function CollageSticker({
   left,
   width,
   zIndex = 1,
-  xs,
+  mobileS,
+  mobileM,
+  mobileL,
   sm,
   className,
 }: Props) {
-  const combinedClassName = [
-    className,
-    ...buildResponsiveClasses("xs", xs),
-    ...buildResponsiveClasses("sm", sm),
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
+  const stickerClass = `cs-${rawId}`;
+
+  const mediaBlocks = (
+    [
+      ["mobileS", mobileS],
+      ["mobileM", mobileM],
+      ["mobileL", mobileL],
+      ["sm", sm],
+    ] as const
+  )
+    .filter(([, override]) => override)
+    .map(([key, override]) => {
+      const minWidth = BREAKPOINTS[key];
+      return `@media (min-width:${minWidth}px){.${stickerClass}{${overrideDeclarations(override!)}}}`;
+    })
+    .join("");
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt}
-      className={combinedClassName || undefined}
-      style={{
-        position: "absolute",
-        top,
-        left,
-        width,
-        transform: `rotate(${rotate}deg)`,
-        filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.15))",
-        zIndex,
-      }}
-    />
+    <>
+      {mediaBlocks && <style>{mediaBlocks}</style>}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        className={[stickerClass, className].filter(Boolean).join(" ")}
+        style={{
+          position: "absolute",
+          top,
+          left,
+          width,
+          transform: `rotate(${rotate}deg)`,
+          filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.15))",
+          zIndex,
+        }}
+      />
+    </>
   );
 }
