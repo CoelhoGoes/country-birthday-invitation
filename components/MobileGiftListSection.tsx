@@ -70,6 +70,7 @@ export function MobileGiftListSection() {
           top="10%"
           left="-20%"
           width="26%"
+          wiggle
           rotate={-8}
           zIndex={2}
         />
@@ -79,6 +80,7 @@ export function MobileGiftListSection() {
           top="0%"
           left="95%"
           width="18%"
+          wiggle
           rotate={12}
           zIndex={2}
         />

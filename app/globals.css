@@ -33,3 +33,26 @@ body {
   position: relative;
   z-index: 1;
 }
+
+/* Leve balanço para stickers (ver prop "wiggle" do CollageSticker) — não é
+   giro contínuo, é uma oscilação sutil em torno da rotação de descanso,
+   como se estivesse colado meio bambeando. */
+@keyframes sticker-wiggle {
+  0%,
+  100% {
+    transform: rotate(calc(var(--sticker-rotate, 0deg) - 4deg));
+  }
+  50% {
+    transform: rotate(calc(var(--sticker-rotate, 0deg) + 4deg));
+  }
+}
+
+.sticker-wiggle {
+  animation: sticker-wiggle 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker-wiggle {
+    animation: none;
+  }
+}

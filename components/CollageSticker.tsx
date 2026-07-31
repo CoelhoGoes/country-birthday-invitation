@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, type CSSProperties } from "react";
 
 type BreakpointOverride = {
   top?: string;
@@ -27,7 +27,20 @@ type Props = {
   mobileL?: BreakpointOverride;
   sm?: BreakpointOverride;
   className?: string;
+  // Leve balanço contínuo em torno da rotação de descanso (ver
+  // @keyframes sticker-wiggle em globals.css). Não combinar com overrides
+  // de "rotate" por breakpoint no mesmo sticker — a animação tem
+  // prioridade sobre eles enquanto ativa.
+  wiggle?: boolean;
 };
+
+// Delay determinístico (mesmo no server e no client, evita mismatch de
+// hidratação) pra nem todo sticker balançar em sincronia perfeita.
+function wiggleDelay(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  return (hash % 20) / 5; // 0 a 3.8s
+}
 
 const BREAKPOINTS = {
   mobileS: 320,
@@ -60,6 +73,7 @@ export function CollageSticker({
   mobileL,
   sm,
   className,
+  wiggle = false,
 }: Props) {
   const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
   const stickerClass = `cs-${rawId}`;
@@ -86,16 +100,22 @@ export function CollageSticker({
       <img
         src={src}
         alt={alt}
-        className={[stickerClass, className].filter(Boolean).join(" ")}
-        style={{
-          position: "absolute",
-          top,
-          left,
-          width,
-          transform: `rotate(${rotate}deg)`,
-          filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.15))",
-          zIndex,
-        }}
+        className={[stickerClass, wiggle && "sticker-wiggle", className].filter(Boolean).join(" ")}
+        style={
+          {
+            position: "absolute",
+            top,
+            left,
+            width,
+            // Com wiggle, o @keyframes controla o transform (lendo
+            // --sticker-rotate); sem wiggle, aplicamos a rotação direto.
+            ...(wiggle
+              ? { "--sticker-rotate": `${rotate}deg`, animationDelay: `${wiggleDelay(rawId)}s` }
+              : { transform: `rotate(${rotate}deg)` }),
+            filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.15))",
+            zIndex,
+          } as CSSProperties
+        }
       />
     </>
   );
