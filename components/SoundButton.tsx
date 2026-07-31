@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { Howl } from "howler";
+import { soundConfig } from "@/lib/soundConfig";
 
 type SoundButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   hoverSoundSrc?: string;
@@ -13,8 +14,8 @@ type SoundButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
  * Nunca reproduz áudio sem interação do usuário (só em hover/click).
  */
 export function SoundButton({
-  hoverSoundSrc = "/sounds/spur-hover.mp3",
-  clickSoundSrc = "/sounds/lasso-success.mp3",
+  hoverSoundSrc = soundConfig.spurClick,
+  clickSoundSrc = soundConfig.lassoSuccess,
   onClick,
   onMouseEnter,
   className,

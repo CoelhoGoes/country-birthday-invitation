@@ -4,12 +4,17 @@ import { GiftListSection } from "@/components/GiftListSection";
 import { EventPanel } from "@/components/EventPanel";
 import { MobileRsvpCard } from "@/components/MobileRsvpCard";
 import { MobileGiftListSection } from "@/components/MobileGiftListSection";
+import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { eventConfig } from "@/lib/eventConfig";
 
 export default function Home() {
   const [titleFirstWord, ...titleRestWords] = eventConfig.title.split(" ");
 
   return (
+    // Fragment (não filho direto de .bg-paper) — evita conflito com a
+    // regra ".bg-paper > *" do globals.css, que forçaria position:relative
+    // por cima do position:fixed do botão de música.
+    <>
     <main className="bg-paper min-h-screen overflow-x-hidden">
       {/* ================= MOBILE (Revisão 3 — ver docs/design-reference.md) =================
           Layout definido por docs/prototipo-mobile.png: stickers "sangrando"
@@ -64,6 +69,7 @@ export default function Home() {
               top="0%"
               left="30%"
               width="33%"
+              wiggle
               rotate={0}
               zIndex={2}
               mobileM={{ top: "-2%", left: "30%", width: "30%" }}
@@ -75,6 +81,7 @@ export default function Home() {
               top="-10%"
               left="66%"
               width="44%"
+              wiggle
               rotate={8}
               zIndex={2}
               mobileM={{ top: "-10%", left: "70%", width: "40%" }}
@@ -119,6 +126,7 @@ export default function Home() {
               top="-10%"
               left="2%"
               width="40%"
+              wiggle
               rotate={-2}
               zIndex={2}
               mobileM={{ top: "-24%", left: "0%", width: "40%" }}
@@ -136,11 +144,12 @@ export default function Home() {
               mobileL={{ top: "24%", left: "30%", width: "34%" }}
             />
             <CollageSticker
-              src="/stickers/polaroid-photo.png"
-              alt="Foto do aniversariante em moldura polaroid"
+              src="/stickers/photo.png"
+              alt="Welly de cowboy"
               top="-42%"
               left="56%"
               width="55%"
+              wiggle
               rotate={4}
               zIndex={4}
               mobileM={{ top: "-50%", left: "50%", width: "60%" }}
@@ -202,11 +211,12 @@ export default function Home() {
             />
 
             <CollageSticker
-              src="/stickers/polaroid-photo.png"
-              alt="Foto do aniversariante em moldura polaroid"
+              src="/stickers/photo.png"
+              alt="Welly de cowboy"
               top="56%"
               left="54%"
               width="42%"
+              wiggle
               rotate={-4}
               zIndex={6}
               sm={{ top: "38%", left: "50%", width: "44%" }}
@@ -267,5 +277,7 @@ export default function Home() {
         </div>
       </div>
     </main>
+    <BackgroundMusic />
+    </>
   );
 }
