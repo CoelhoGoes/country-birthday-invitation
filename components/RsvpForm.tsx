@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import { SoundButton } from "@/components/SoundButton";
+import { useSoundEffect } from "@/lib/useSoundEffect";
+import { soundConfig } from "@/lib/soundConfig";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function RsvpForm() {
+  const playTypingSound = useSoundEffect(soundConfig.spurClick, 0.35);
+  const playGunload = useSoundEffect(soundConfig.gunload);
   const [name, setName] = useState("");
   const [confirmed, setConfirmed] = useState<boolean | null>(null);
   const [status, setStatus] = useState<Status>("idle");
@@ -67,6 +71,7 @@ export function RsvpForm() {
           type="text"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          onKeyDown={playTypingSound}
           placeholder="Digite seu nome completo"
           className="w-full rounded-md border border-marrom-light bg-white px-3 py-2 font-body text-marrom-dark outline-none focus:border-rosa-dark"
         />
@@ -79,7 +84,10 @@ export function RsvpForm() {
         <div className="flex gap-3">
           <button
             type="button"
-            onClick={() => setConfirmed(true)}
+            onClick={() => {
+              playGunload();
+              setConfirmed(true);
+            }}
             className={`flex-1 rounded-md border-2 px-3 py-2 font-body font-semibold transition ${
               confirmed === true
                 ? "border-rosa-dark bg-rosa text-white"
@@ -90,7 +98,10 @@ export function RsvpForm() {
           </button>
           <button
             type="button"
-            onClick={() => setConfirmed(false)}
+            onClick={() => {
+              playGunload();
+              setConfirmed(false);
+            }}
             className={`flex-1 rounded-md border-2 px-3 py-2 font-body font-semibold transition ${
               confirmed === false
                 ? "border-marrom-dark bg-marrom text-white"
@@ -109,8 +120,7 @@ export function RsvpForm() {
       <SoundButton
         type="submit"
         disabled={status === "submitting"}
-        clickSoundSrc="/sounds/lasso-success.mp3"
-        hoverSoundSrc="/sounds/spur-hover.mp3"
+        clickSoundSrc={soundConfig.gunshot}
         className="rounded-md border-2 border-marrom-dark bg-marrom px-4 py-3 font-body text-lg text-prata-light shadow-md transition hover:bg-marrom-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Enviando..." : "Confirmar presença"}

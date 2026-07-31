@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { SoundButton } from "@/components/SoundButton";
+import { useSoundEffect } from "@/lib/useSoundEffect";
+import { soundConfig } from "@/lib/soundConfig";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -9,6 +11,8 @@ type Status = "idle" | "submitting" | "success" | "error";
 // Figma (docs/prototipo-mobile.png), ver "Revisão 3" em
 // docs/design-reference.md. Lógica de envio igual à do RsvpForm (desktop).
 export function MobileRsvpCard() {
+  const playTypingSound = useSoundEffect(soundConfig.spurClick, 0.35);
+  const playGunload = useSoundEffect(soundConfig.gunload);
   const [name, setName] = useState("");
   const [confirmed, setConfirmed] = useState<boolean | null>(null);
   const [status, setStatus] = useState<Status>("idle");
@@ -76,6 +80,7 @@ export function MobileRsvpCard() {
           type="text"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          onKeyDown={playTypingSound}
           placeholder="Digite seu nome e sobrenome"
           className="w-full border-b-2 border-marrom-light bg-transparent px-1 py-2 font-body text-marrom-dark outline-none placeholder:text-marrom-light focus:border-rosa-dark"
         />
@@ -88,7 +93,10 @@ export function MobileRsvpCard() {
         <div className="flex gap-3">
           <button
             type="button"
-            onClick={() => setConfirmed(true)}
+            onClick={() => {
+              playGunload();
+              setConfirmed(true);
+            }}
             className={`flex-1 rounded-full border-2 px-4 py-2 font-body font-semibold transition ${confirmed === true
               ? "border-rosa-dark bg-rosa text-white"
               : "border-marrom-light bg-white text-marrom-dark"
@@ -98,7 +106,10 @@ export function MobileRsvpCard() {
           </button>
           <button
             type="button"
-            onClick={() => setConfirmed(false)}
+            onClick={() => {
+              playGunload();
+              setConfirmed(false);
+            }}
             className={`flex-1 rounded-full border-2 px-4 py-2 font-body font-semibold transition ${confirmed === false
               ? "border-marrom-dark bg-marrom text-white"
               : "border-marrom-light bg-white text-marrom-dark"
@@ -116,8 +127,7 @@ export function MobileRsvpCard() {
       <SoundButton
         type="submit"
         disabled={status === "submitting"}
-        clickSoundSrc="/sounds/lasso-success.mp3"
-        hoverSoundSrc="/sounds/spur-hover.mp3"
+        clickSoundSrc={soundConfig.gunshot}
         className="rounded-full border-2 border-marrom-dark bg-marrom-dark px-4 py-3 font-body text-lg font-bold text-white shadow-md transition disabled:opacity-60"
       >
         {status === "submitting" ? "Enviando..." : "Confirmar"}
