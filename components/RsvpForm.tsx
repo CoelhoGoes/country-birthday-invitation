@@ -1,17 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { SoundButton } from "@/components/SoundButton";
 import { useSoundEffect } from "@/lib/useSoundEffect";
 import { soundConfig } from "@/lib/soundConfig";
+import { rsvpResponses } from "@/lib/rsvpResponses";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function RsvpForm() {
   const playTypingSound = useSoundEffect(soundConfig.spurClick, 0.35);
   const playGunload = useSoundEffect(soundConfig.gunload);
+  const playCow = useSoundEffect(soundConfig.cow);
+  const playGunshot = useSoundEffect(soundConfig.gunshot);
   const [name, setName] = useState("");
   const [confirmed, setConfirmed] = useState<boolean | null>(null);
+  const [confirmedAnswer, setConfirmedAnswer] = useState<boolean | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -19,6 +22,7 @@ export function RsvpForm() {
     event.preventDefault();
 
     if (!name.trim() || confirmed === null) {
+      playCow();
       setStatus("error");
       setErrorMessage("Preencha seu nome e diga se vai participar.");
       return;
@@ -39,6 +43,8 @@ export function RsvpForm() {
         throw new Error(data.error ?? "Não foi possível enviar sua confirmação.");
       }
 
+      playGunshot();
+      setConfirmedAnswer(confirmed);
       setStatus("success");
       setName("");
       setConfirmed(null);
@@ -48,11 +54,16 @@ export function RsvpForm() {
     }
   };
 
-  if (status === "success") {
+  if (status === "success" && confirmedAnswer !== null) {
+    const response = rsvpResponses[confirmedAnswer ? "yes" : "no"];
     return (
       <div className="rounded-lg border-2 border-marrom bg-rosa-light p-6 text-center font-body text-marrom-dark">
-        <p className="font-display text-2xl text-marrom-dark">Yeehaw! 🤠</p>
-        <p className="mt-2">Sua confirmação foi registrada. Até lá, parceiro(a)!</p>
+        <p className="font-display text-2xl text-marrom-dark">{response.title}</p>
+        <p className="mt-2">{response.message}</p>
+        {response.image && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={response.image} alt="" className="mx-auto mt-4 max-w-full rounded-lg" />
+        )}
       </div>
     );
   }
@@ -117,14 +128,14 @@ export function RsvpForm() {
         <p className="text-sm font-semibold text-red-700">{errorMessage}</p>
       )}
 
-      <SoundButton
+      <button
         type="submit"
         disabled={status === "submitting"}
-        clickSoundSrc={soundConfig.gunshot}
+        onMouseEnter={playTypingSound}
         className="rounded-md border-2 border-marrom-dark bg-marrom px-4 py-3 font-body text-lg text-prata-light shadow-md transition hover:bg-marrom-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Enviando..." : "Confirmar presença"}
-      </SoundButton>
+      </button>
     </form>
   );
 }
