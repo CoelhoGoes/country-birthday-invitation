@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SoundButton } from "@/components/SoundButton";
 import { CollageSticker } from "@/components/CollageSticker";
+import { GiftAndReferencesTabs } from "@/components/GiftAndReferencesTabs";
 import {
   buildPlainTextGiftList,
   giftCategories,
@@ -49,9 +50,8 @@ function CategoryBlock({ category }: { category: GiftCategory }) {
   );
 }
 
-// Seção "Lista de Presentes" para o breakpoint mobile — layout definido
-// pelo protótipo Figma (docs/prototipo-mobile.png), ver "Revisão 3" em
-// docs/design-reference.md.
+// Seção "Lista de Presentes" / "Referências" para o breakpoint mobile —
+// tabs em React puro, ver docs/design-reference.md "Revisão 9".
 export function MobileGiftListSection() {
   const [copied, setCopied] = useState(false);
 
@@ -61,34 +61,8 @@ export function MobileGiftListSection() {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  return (
-    <section className="w-full">
-      <div className="relative mx-auto mb-4 h-16 max-w-xs">
-        <CollageSticker
-          src="/stickers/cow.png"
-          alt=""
-          top="10%"
-          left="-20%"
-          width="26%"
-          wiggle
-          rotate={-8}
-          zIndex={2}
-        />
-        <CollageSticker
-          src="/stickers/sheriff-star.png"
-          alt=""
-          top="0%"
-          left="95%"
-          width="18%"
-          wiggle
-          rotate={12}
-          zIndex={2}
-        />
-        <h2 className="relative z-10 pt-2 text-center font-display text-3xl text-marrom-dark">
-          Lista de Presentes
-        </h2>
-      </div>
-
+  const giftListPanel = (
+    <>
       <blockquote className="mb-6 rounded-2xl border-2 border-rosa-dark bg-rosa p-5 text-center font-body text-white shadow-md">
         {giftListWarning}
       </blockquote>
@@ -108,7 +82,6 @@ export function MobileGiftListSection() {
               zIndex={20}
               mobileL={{ top: "-12%", left: ribbonSide === "left" ? "-8%" : "84%", width: "24%" }}
               mobileM={{ top: ribbonSide === "left" ? "-10%" : "-6%", left: ribbonSide === "left" ? "-8%" : "83%", width: "24%" }}
-
             />
             <div className="relative z-10">
               <CategoryBlock category={category} />
@@ -133,6 +106,35 @@ export function MobileGiftListSection() {
           {copied ? "Copiado!" : "Copiar Lista"}
         </SoundButton>
       </div>
+    </>
+  );
+
+  return (
+    <section className="w-full">
+      <div className="relative mx-auto mb-4 h-10 max-w-xs">
+        <CollageSticker
+          src="/stickers/cow.png"
+          alt=""
+          top="-35%"
+          left="5%"
+          width="26%"
+          wiggle
+          rotate={-8}
+          zIndex={2}
+        />
+        <CollageSticker
+          src="/stickers/sheriff-star.png"
+          alt=""
+          top="-35%"
+          left="65%"
+          width="25%"
+          wiggle
+          rotate={12}
+          zIndex={2}
+        />
+      </div>
+
+      <GiftAndReferencesTabs giftListPanel={giftListPanel} />
     </section>
   );
 }

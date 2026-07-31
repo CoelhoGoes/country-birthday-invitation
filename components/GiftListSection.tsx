@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SoundButton } from "@/components/SoundButton";
 import { CollageSticker } from "@/components/CollageSticker";
+import { GiftAndReferencesTabs } from "@/components/GiftAndReferencesTabs";
 import {
   buildPlainTextGiftList,
   giftCategories,
@@ -19,33 +20,8 @@ export function GiftListSection() {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  return (
-    <section className="w-full">
-      {/* Zona B — acentos pequenos de cada lado do título, tamanho reduzido */}
-      <div className="relative mx-auto mb-4 h-14 max-w-xs sm:h-16 sm:max-w-sm">
-        <CollageSticker
-          src="/stickers/21-balloon.png"
-          alt=""
-          top="0%"
-          left="0%"
-          width="16%"
-          rotate={-10}
-          zIndex={1}
-        />
-        <CollageSticker
-          src="/stickers/disco-ball-2.png"
-          alt=""
-          top="5%"
-          left="86%"
-          width="14%"
-          rotate={12}
-          zIndex={1}
-        />
-        <h2 className="relative z-10 pt-1 text-center font-display text-3xl text-marrom-dark">
-          Lista de Presentes
-        </h2>
-      </div>
-
+  const giftListPanel = (
+    <>
       <blockquote className="mb-6 rounded-lg border-2 border-rosa-dark bg-rosa-light/60 p-4 font-body text-lg italic text-marrom-dark">
         {giftListWarning}
       </blockquote>
@@ -97,6 +73,35 @@ export function GiftListSection() {
           {copied ? "Copiado! ✅" : "📋 Copiar lista"}
         </SoundButton>
       </div>
+    </>
+  );
+
+  return (
+    <section className="w-full">
+      {/* Zona B — acentos decorativos, mantidos mesmo com o heading fixo
+          substituído pelas tabs (ver docs/design-reference.md "Revisão 9") */}
+      <div className="relative mx-auto mb-4 h-10 max-w-xs sm:h-12 sm:max-w-sm">
+        <CollageSticker
+          src="/stickers/21-balloon.png"
+          alt=""
+          top="0%"
+          left="0%"
+          width="16%"
+          rotate={-10}
+          zIndex={1}
+        />
+        <CollageSticker
+          src="/stickers/disco-ball-2.png"
+          alt=""
+          top="5%"
+          left="86%"
+          width="14%"
+          rotate={12}
+          zIndex={1}
+        />
+      </div>
+
+      <GiftAndReferencesTabs giftListPanel={giftListPanel} />
     </section>
   );
 }

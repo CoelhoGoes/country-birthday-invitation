@@ -601,5 +601,154 @@ proporcionalmente à intensidade do ruído — daí o aspecto acinzentado.
 `soft-light` a ~0.18 de opacidade preserva o tom claro de fundo (`kraft.light`)
 e só adiciona uma textura sutil, sem escurecer a página.
 
+## Revisão 9 — Nova seção "Referências" com tabs (substitui a seção fixa de Lista de Presentes)
+Nova funcionalidade: uma aba de referências de roupa (fotos de outfits
+pra inspiração dos convidados), com visual de feed do Instagram (aba
+"Buscar"/Explore: grid 3 colunas, quadrado, gap mínimo). Para não alongar
+a página, "Lista de Presentes" e "Referências" passam a dividir o mesmo
+espaço através de **tabs**, trocando de painel sem mudar o tamanho da
+página.
+
+**Decisão: tabs implementadas em React puro (useState), sem adicionar
+FlyonUI/Preline como dependência.** O usuário colou um exemplo de markup
+do FlyonUI como referência visual (aparência: abas com indicador
+sublinhado, `tabs-bordered`), mas a funcionalidade deve ser recriada com
+estado do React — mesmo visual, zero dependência nova.
+
+### Estrutura do componente de tabs
+```tsx
+// components/GiftAndReferencesTabs.tsx
+"use client";
+import { useState } from "react";
+
+type TabKey = "presentes" | "referencias";
+
+export function GiftAndReferencesTabs() {
+  const [activeTab, setActiveTab] = useState<TabKey>("presentes");
+
+  return (
+    <div>
+      <nav className="flex border-b border-marrom/30" aria-label="Tabs" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "presentes"}
+          onClick={() => setActiveTab("presentes")}
+          className={`w-full py-3 text-center font-display transition-colors ${
+            activeTab === "presentes"
+              ? "border-b-2 border-marrom-dark text-marrom-dark"
+              : "text-marrom/60"
+          }`}
+        >
+          Lista de Presentes
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "referencias"}
+          onClick={() => setActiveTab("referencias")}
+          className={`w-full py-3 text-center font-display transition-colors ${
+            activeTab === "referencias"
+              ? "border-b-2 border-marrom-dark text-marrom-dark"
+              : "text-marrom/60"
+          }`}
+        >
+          Referências
+        </button>
+      </nav>
+
+      <div className="mt-4">
+        {activeTab === "presentes" && <GiftListSection />}
+        {activeTab === "referencias" && <ReferencesGrid />}
+      </div>
+    </div>
+  );
+}
+```
+Adaptar classes/cores para bater com a paleta (marrom/rosa) e a fonte
+`font-display` (Miltonian Tattoo) já definida. O visual deve lembrar
+"tabs sublinhadas" do exemplo FlyonUI, mas sem nenhuma classe/atributo
+`data-tab` — tudo controlado por `activeTab` do React.
+
+### Grid de referências (estilo feed "Buscar" do Instagram)
+```tsx
+// components/ReferencesGrid.tsx
+"use client";
+import { useState } from "react";
+import { referencesConfig } from "@/lib/referencesConfig";
+
+export function ReferencesGrid() {
+  const [selected, setSelected] = useState<string | null>(null);
+
+  return (
+    <>
+      <div className="grid grid-cols-3 gap-0.5">
+        {referencesConfig.map((src) => (
+          <button
+            key={src}
+            type="button"
+            className="aspect-square overflow-hidden"
+            onClick={() => setSelected(src)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={src} alt="" className="h-full w-full object-cover" />
+          </button>
+        ))}
+      </div>
+
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setSelected(null)}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={selected} alt="" className="max-h-full max-w-full object-contain" />
+          <button
+            type="button"
+            aria-label="Fechar"
+            className="absolute right-4 top-4 text-3xl text-white"
+            onClick={() => setSelected(null)}
+          >
+            ×
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+Características:
+- Grid 3 colunas, `gap-0.5` (bem pequeno, igual ao Instagram), cada item
+  `aspect-square` com `object-cover` (crop quadrado, sem bordas
+  arredondadas — igual ao feed de Buscar).
+- Clique/toque abre lightbox em tela cheia (overlay escuro, imagem
+  centralizada em tamanho original proporcional, botão de fechar). Fechar
+  ao clicar fora ou no X.
+- Sem carrossel/setas de navegação entre imagens — cada clique abre só a
+  imagem tocada.
+
+### Fonte das imagens (a fornecer pelo usuário)
+Criar `lib/referencesConfig.ts` exportando um array de caminhos:
+```ts
+export const referencesConfig: string[] = [
+  "/references/look-1.jpg",
+  "/references/look-2.jpg",
+  // ...o usuário vai adicionar os arquivos reais em /public/references/
+  // e atualizar esta lista
+];
+```
+Deixar o array com 2-3 entradas de exemplo (placeholder) e um comentário
+claro indicando que o usuário vai substituir pelos arquivos reais depois,
+seguindo a convenção `/public/references/nome-do-arquivo.jpg`.
+
+### Onde essa seção entra na página
+Substituir o heading fixo "Lista de Presentes" (que hoje antecede o card
+rosa de aviso) pelo componente `GiftAndReferencesTabs`, mantendo os
+stickers decorativos (`cow.png` + `sheriff-star.png`) que já flanqueiam
+esse ponto da página. O card rosa de aviso e os botões de exportação
+("Baixar em Pdf" / "Copiar Lista") continuam existindo, mas só aparecem
+dentro do painel "Lista de Presentes" — não aparecem quando a aba
+"Referências" está ativa.
+
 ## Pendências restantes
 - (nenhuma pendente no momento)

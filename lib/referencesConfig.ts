@@ -1,0 +1,21 @@
+// Fotos de roupa/outfits pra inspiração dos convidados, exibidas na aba
+// "Referências" (grid estilo feed do Instagram). Placeholders por
+// enquanto — substitua pelos arquivos reais em /public/references/ e
+// atualize esta lista com os nomes definitivos.
+export const referencesConfig: string[] = [
+  "/references/1.jpeg",
+  "/references/2.jpeg",
+  "/references/3.jpeg",
+  "/references/4.jpeg",
+  "/references/5.jpeg",
+  "/references/6.jpeg",
+  "/references/7.jpeg",
+  "/references/8.jpeg",
+  "/references/9.jpeg",
+  "/references/10.jpeg",
+  "/references/11.jpeg",
+  "/references/12.jpeg",
+  "/references/13.jpeg",
+  "/references/14.jpeg",
+  "/references/15.jpeg",
+];
