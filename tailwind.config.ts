@@ -8,15 +8,11 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        // Breakpoints nomeados alinhados aos presets Mobile S/M/L do Chrome
-        // DevTools — ver docs/design-reference.md "Revisão 7". Como o
-        // Tailwind é mobile-first (min-width), "mobile-s" é equivalente à
-        // base (sem prefixo) pra qualquer tela ≥320px — nosso piso de
-        // suporte já é 320px. Existe só por simetria/clareza com
+        // Tailwind é mobile-first (min-width), então "mobile-s" equivale à
+        // base (sem prefixo) — existe só por simetria/clareza com
         // mobile-m/mobile-l, não muda nada visualmente.
-        // Base (sem prefixo) / "mobile-s" = 320-374px, "mobile-m" =
-        // 375-424px, "mobile-l" = 425-639px, "sm" (padrão do Tailwind) =
-        // 640px+ (desktop).
+        // Base / "mobile-s" = 320-374px, "mobile-m" = 375-424px,
+        // "mobile-l" = 425-639px, "sm" (padrão do Tailwind) = 640px+.
         "mobile-s": "320px",
         "mobile-m": "375px",
         "mobile-l": "425px",
@@ -30,9 +26,6 @@ const config: Config = {
         marrom: {
           light: "#a9784f",
           DEFAULT: "#6b4226",
-          // Tom de tinta usado nos destaques (label "Seu nome", título
-          // Dr Sugiyama) — mais avermelhado que o marrom padrão, conforme
-          // amostrado de docs/prototipo-mobile.png.
           dark: "#6b1618",
         },
         prata: {
@@ -47,8 +40,6 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Tipografia definitiva (ver docs/design-reference.md):
-        // Dr Sugiyama (script), Miltonian Tattoo (display), Delius (body).
         script: ["var(--font-script)"],
         display: ["var(--font-display)"],
         body: ["var(--font-body)"],

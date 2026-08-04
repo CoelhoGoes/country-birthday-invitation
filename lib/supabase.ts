@@ -9,6 +9,4 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
-// Client público (anon key). Respeita as RLS policies do Supabase — só pode
-// ser usado para operações permitidas ao role "anon" (ex: insert em rsvps).
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

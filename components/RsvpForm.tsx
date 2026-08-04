@@ -61,7 +61,6 @@ export function RsvpForm() {
         <p className="font-display text-2xl text-marrom-dark">{response.title}</p>
         <p className="mt-2">{response.message}</p>
         {response.image && (
-          // eslint-disable-next-line @next/next/no-img-element
           <img src={response.image} alt="" className="mx-auto mt-4 max-w-full rounded-lg" />
         )}
       </div>
@@ -99,11 +98,10 @@ export function RsvpForm() {
               playGunload();
               setConfirmed(true);
             }}
-            className={`flex-1 rounded-md border-2 px-3 py-2 font-body font-semibold transition ${
-              confirmed === true
+            className={`flex-1 rounded-md border-2 px-3 py-2 font-body font-semibold transition ${confirmed === true
                 ? "border-rosa-dark bg-rosa text-white"
                 : "border-marrom-light bg-white text-marrom-dark"
-            }`}
+              }`}
           >
             Sim, vou! 🎉
           </button>
@@ -113,11 +111,10 @@ export function RsvpForm() {
               playGunload();
               setConfirmed(false);
             }}
-            className={`flex-1 rounded-md border-2 px-3 py-2 font-body font-semibold transition ${
-              confirmed === false
+            className={`flex-1 rounded-md border-2 px-3 py-2 font-body font-semibold transition ${confirmed === false
                 ? "border-marrom-dark bg-marrom text-white"
                 : "border-marrom-light bg-white text-marrom-dark"
-            }`}
+              }`}
           >
             Não vou poder
           </button>

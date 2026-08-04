@@ -9,10 +9,6 @@ type SoundButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   clickSoundSrc?: string;
 };
 
-/**
- * Botão reutilizável que toca efeitos sonoros no hover e no click.
- * Nunca reproduz áudio sem interação do usuário (só em hover/click).
- */
 export function SoundButton({
   hoverSoundSrc = soundConfig.spurClick,
   clickSoundSrc = soundConfig.lassoSuccess,

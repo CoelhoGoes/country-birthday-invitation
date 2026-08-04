@@ -7,9 +7,6 @@ import { rsvpResponses } from "@/lib/rsvpResponses";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-// Card de RSVP para o breakpoint mobile — layout definido pelo protótipo
-// Figma (docs/prototipo-mobile.png), ver "Revisão 3" em
-// docs/design-reference.md. Lógica de envio igual à do RsvpForm (desktop).
 export function MobileRsvpCard() {
   const playTypingSound = useSoundEffect(soundConfig.spurClick, 0.35);
   const playGunload = useSoundEffect(soundConfig.gunload);

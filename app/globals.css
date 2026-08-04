@@ -6,11 +6,8 @@ body {
   background-color: theme("colors.prata.light");
 }
 
-/* Textura de papel via CSS puro (feTurbulence) — ver docs/design-reference.md
-   "Revisão 8". Opacidade baixa + soft-light pra manter a base clara
-   (kraft.light), sem escurecer/acinzentar a página. */
 .bg-paper {
-  background-color: #f3ead0; /* kraft.light — tom claro do papel */
+  background-color: #f3ead0;
   position: relative;
 }
 
@@ -26,17 +23,11 @@ body {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiLz48L3N2Zz4=");
 }
 
-/* Garante que o conteúdo real (texto, stickers) renderize acima do
-   ::before da textura, mesmo sendo um elemento estático sem z-index
-   próprio (sem isso, o pseudo-elemento absolute cobriria o conteúdo). */
 .bg-paper > * {
   position: relative;
   z-index: 1;
 }
 
-/* Leve balanço para stickers (ver prop "wiggle" do CollageSticker) — não é
-   giro contínuo, é uma oscilação sutil em torno da rotação de descanso,
-   como se estivesse colado meio bambeando. */
 @keyframes sticker-wiggle {
   0%,
   100% {

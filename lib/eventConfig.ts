@@ -1,6 +1,3 @@
-// Dados confirmados a partir do convite real (ver docs/design-reference.md).
-// Único lugar a editar se algum dado mudar.
-
 export const eventConfig = {
   title: "Welly's Last Rodeo!",
   tagline: "Junte-se para celebrar",

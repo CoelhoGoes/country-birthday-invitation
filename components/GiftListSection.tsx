@@ -78,8 +78,6 @@ export function GiftListSection() {
 
   return (
     <section className="w-full">
-      {/* Zona B — acentos decorativos, mantidos mesmo com o heading fixo
-          substituído pelas tabs (ver docs/design-reference.md "Revisão 9") */}
       <div className="relative mx-auto mb-4 h-10 max-w-xs sm:h-12 sm:max-w-sm">
         <CollageSticker
           src="/stickers/21-balloon.png"

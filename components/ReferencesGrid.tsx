@@ -22,9 +22,6 @@ export function ReferencesGrid() {
 
   return (
     <>
-      {/* Layout tipo "mosaico" (colunas CSS) — cada imagem mantém sua
-          proporção original (4:3, 1:1, 16:9, o que for), sem cortar nem
-          forçar quadrado. */}
       <div className="columns-3 gap-0.5">
         {images.map((src) => (
           <button
@@ -33,7 +30,6 @@ export function ReferencesGrid() {
             className="mb-0.5 block w-full break-inside-avoid"
             onClick={() => setSelected(src)}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={src} alt="" className="w-full" />
           </button>
         ))}
@@ -44,7 +40,6 @@ export function ReferencesGrid() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setSelected(null)}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={selected} alt="" className="max-h-full max-w-full object-contain" />
           <button
             type="button"

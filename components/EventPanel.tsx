@@ -1,8 +1,6 @@
 import { CollageSticker } from "@/components/CollageSticker";
 import { eventConfig } from "@/lib/eventConfig";
 
-// Painel de destaque com o conteúdo de eventConfig — o chapéu de cowboy
-// rosa fica "grudado" na borda superior direita, como um selo/broche.
 export function EventPanel() {
   return (
     <div className="relative z-0 mx-auto flex max-w-[280px] flex-col items-center gap-2 rounded-lg border-2 border-marrom bg-kraft-light/90 px-5 pb-8 pt-12 text-center shadow-lg sm:max-w-sm sm:px-8 sm:pb-10 sm:pt-14">

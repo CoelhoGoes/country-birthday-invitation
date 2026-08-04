@@ -10,32 +10,19 @@ type BreakpointOverride = {
 type Props = {
   src: string;
   alt: string;
-  rotate?: number; // graus, ex: -8, 5, 12
-  top: string; // posição em %, ex: "5%" — usar % para escalar em mobile
+  rotate?: number;
+  top: string;
   left: string;
-  width: string; // ex: "35%"
+  width: string;
   zIndex?: number;
-  // Overrides de posição/tamanho/rotação por breakpoint. Valores em px
-  // batendo com tailwind.config.ts: "mobile-s" (320px, equivalente à base
-  // já que é o piso de suporte — existe só por simetria com mobile-m/
-  // mobile-l), "mobile-m" (375px), "mobile-l" (425px), "sm" (640px).
-  // Implementado via <style> com @media real (não classes Tailwind)
-  // porque essas classes seriam montadas em runtime e o Tailwind só
-  // enxerga classes literais no código-fonte pra gerar o CSS.
   mobileS?: BreakpointOverride;
   mobileM?: BreakpointOverride;
   mobileL?: BreakpointOverride;
   sm?: BreakpointOverride;
   className?: string;
-  // Leve balanço contínuo em torno da rotação de descanso (ver
-  // @keyframes sticker-wiggle em globals.css). Não combinar com overrides
-  // de "rotate" por breakpoint no mesmo sticker — a animação tem
-  // prioridade sobre eles enquanto ativa.
   wiggle?: boolean;
 };
 
-// Delay determinístico (mesmo no server e no client, evita mismatch de
-// hidratação) pra nem todo sticker balançar em sincronia perfeita.
 function wiggleDelay(id: string): number {
   let hash = 0;
   for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
@@ -96,7 +83,6 @@ export function CollageSticker({
   return (
     <>
       {mediaBlocks && <style>{mediaBlocks}</style>}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt={alt}
@@ -107,8 +93,6 @@ export function CollageSticker({
             top,
             left,
             width,
-            // Com wiggle, o @keyframes controla o transform (lendo
-            // --sticker-rotate); sem wiggle, aplicamos a rotação direto.
             ...(wiggle
               ? { "--sticker-rotate": `${rotate}deg`, animationDelay: `${wiggleDelay(rawId)}s` }
               : { transform: `rotate(${rotate}deg)` }),

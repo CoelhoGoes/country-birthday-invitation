@@ -4,6 +4,5 @@ export const soundConfig = {
   lassoSuccess: "/sounds/lasso-success.mp3",
   gunload: "/sounds/gunload.mp3",
   gunshot: "/sounds/gunshot.mp3",
-  // Toca junto com o aviso de campo obrigatório vazio no RSVP.
   cow: "/sounds/cow.mp3",
 };

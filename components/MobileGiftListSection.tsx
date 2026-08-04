@@ -12,9 +12,6 @@ import {
 } from "@/lib/giftListContent";
 import { downloadGiftListPdf } from "@/lib/giftListPdf";
 
-// Um card por categoria (6 no total). Laço alterna entre os 3 assets
-// disponíveis e entre os lados, pra não repetir a mesma combinação em
-// cards consecutivos.
 const ribbons = ["/stickers/pink-ribbon-2.png", "/stickers/pink-ribbon-3.png", "/stickers/pink-ribbon-4.png"];
 const cardGroups = giftCategories.map((category, index) => ({
   category,
@@ -51,7 +48,7 @@ function CategoryBlock({ category }: { category: GiftCategory }) {
 }
 
 // Seção "Lista de Presentes" / "Referências" para o breakpoint mobile —
-// tabs em React puro, ver docs/design-reference.md "Revisão 9".
+// tabs em React puro.
 export function MobileGiftListSection() {
   const [copied, setCopied] = useState(false);
 
@@ -70,7 +67,7 @@ export function MobileGiftListSection() {
       <div className="flex flex-col gap-6">
         {cardGroups.map(({ category, ribbon, ribbonSide }) => (
           // Sem overflow-hidden aqui: o laço precisa transbordar a borda do
-          // card, visível por cima (Conceito B — ver docs/design-reference.md).
+          // card, visível por cima.
           <div key={category.title} className="relative rounded-2xl border-2 border-marrom-light bg-white p-5 shadow-md">
             <CollageSticker
               src={ribbon}

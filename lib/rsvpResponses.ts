@@ -1,5 +1,3 @@
-// Conteúdo da tela de sucesso do RSVP, um pra cada resposta. "image" é
-// opcional — quando preenchido, aparece logo depois do texto.
 export type RsvpResponseContent = {
   title: string;
   message: string;

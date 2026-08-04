@@ -10,9 +10,6 @@ if (!supabaseUrl || !serviceRoleKey) {
   );
 }
 
-// Client com a service role key — ignora RLS. Só pode ser importado em
-// código server-side (Route Handlers, Server Components), nunca em
-// componentes client-side. O import de "server-only" garante isso em build.
 export const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
   auth: { persistSession: false },
 });

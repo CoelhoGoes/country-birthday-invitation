@@ -1,5 +1,3 @@
-// Conteúdo real e definitivo da lista de presentes.
-
 export const giftListWarning =
   "Algumas pessoas me pediram para fazer, por isso decidir enviar para todos, não precisa dar exatamente o que está aqui, ficarei muito grata com qualquer mimo que possa dar, sua presença é o mais importante!";
 
@@ -79,9 +77,6 @@ export const giftCategories: GiftCategory[] = [
   },
 ];
 
-// Gera a versão em texto simples (sem markdown/HTML) usada pelo botão
-// "Copiar lista" — construída a partir dos mesmos dados do HTML, então os
-// dois nunca ficam dessincronizados.
 export function buildPlainTextGiftList(): string {
   const blocks = giftCategories.map((category) => {
     const lines = [category.title.toUpperCase()];

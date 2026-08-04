@@ -1,12 +1,26 @@
 # Last Rodeo — Convite de Aniversário 🤠
 
-Convite virtual para festa de aniversário com tema country/western, com
-formulário de RSVP, área administrativa para exportar a lista de
-confirmados e efeitos sonoros temáticos.
+Convite virtual para festa de aniversário com tema country/western, no
+estilo colagem/scrapbook digital. Reúne a página do convite, confirmação
+de presença (RSVP), uma área administrativa para gestão dos confirmados
+e efeitos sonoros temáticos, com deploy no Vercel.
 
 Consulte a pasta [`docs/`](docs/) para o contexto completo do projeto
 (stack, schema do banco, identidade visual) e o [`CLAUDE.md`](CLAUDE.md)
 na raiz para as regras gerais.
+
+## Funcionalidades
+
+- **Página do convite** — responsiva (mobile-first), com identidade visual
+  de colagem/scrapbook: stickers PNG sobre fundo com textura de papel.
+- **RSVP** — visitante informa nome e confirma presença; as respostas ficam
+  registradas no banco.
+- **Área administrativa (`/admin`)** — protegida por senha, lista as
+  confirmações recebidas e permite exportar a lista para `.xlsx`.
+- **Efeitos sonoros** — tocam em interações-chave (RSVP, hover em botões),
+  com controle de mute persistente.
+- **Lista de presentes** — seção com as sugestões de presente e download do
+  PDF correspondente.
 
 ## Stack
 
@@ -48,72 +62,26 @@ lib/
   adminAuth.ts                   → validação da senha de admin / nome do cookie
 
 supabase/
-  schema.sql                    → SQL para criar a tabela `rsvps` e as políticas de RLS
-                                  (rodar manualmente no SQL Editor do Supabase)
+  schema.sql                    → SQL da tabela `rsvps` e das políticas de RLS
 
 public/
   sounds/                       → arquivos de áudio (.mp3) usados pelo SoundButton
-                                  (ver public/sounds/README.md)
 
 docs/                           → contexto do projeto (stack, schema, design)
 ```
 
-## Como rodar localmente
+## Configuração
 
-### Pré-requisitos
+Variáveis de ambiente (ver [`.env.example`](.env.example)):
 
-- Node.js 18+ (recomendado via [nvm](https://github.com/nvm-sh/nvm))
-- Uma conta/projeto no [Supabase](https://supabase.com) (plano free é suficiente)
+| Variável | Descrição |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Project URL do Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon public key do Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key do Supabase (server-only) |
+| `ADMIN_PASSWORD` | Senha única para acessar `/admin` e exportar |
 
-### 1. Instalar dependências
-
-```bash
-npm install
-```
-
-### 2. Configurar o Supabase
-
-1. Crie um projeto em [supabase.com](https://supabase.com).
-2. No **SQL Editor** do painel, rode o conteúdo de [`supabase/schema.sql`](supabase/schema.sql)
-   para criar a tabela `rsvps` e as políticas de RLS.
-3. Em **Project Settings → API**, copie a `Project URL`, a `anon public key`
-   e a `service_role key`.
-
-### 3. Configurar variáveis de ambiente
-
-Copie o arquivo de exemplo:
-
-```bash
-cp .env.example .env.local
-```
-
-Preencha `.env.local` com:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=          # Project URL do Supabase
-NEXT_PUBLIC_SUPABASE_ANON_KEY=     # anon public key do Supabase
-SUPABASE_SERVICE_ROLE_KEY=         # service_role key do Supabase (nunca expor no client)
-ADMIN_PASSWORD=                    # senha única para acessar /admin e exportar a lista
-```
-
-### 4. Rodar o servidor de desenvolvimento
-
-```bash
-npm run dev
-```
-
-Acesse:
-
-- [http://localhost:3000](http://localhost:3000) — página do convite
-- [http://localhost:3000/admin](http://localhost:3000/admin) — área administrativa (pede a `ADMIN_PASSWORD`)
-
-### 5. (Opcional) Adicionar os efeitos sonoros
-
-Coloque os arquivos `.mp3` em `public/sounds/` seguindo os nomes esperados
-em [`public/sounds/README.md`](public/sounds/README.md). Sem eles o site
-funciona normalmente, só que sem som.
-
-## Scripts disponíveis
+Scripts npm disponíveis:
 
 | Comando         | Descrição                            |
 | --------------- | ------------------------------------ |
@@ -121,16 +89,3 @@ funciona normalmente, só que sem som.
 | `npm run build` | Gera o build de produção             |
 | `npm run start` | Sobe o build de produção localmente  |
 | `npm run lint`  | Roda o ESLint                        |
-
-## Pendências de conteúdo
-
-Antes do deploy final, substitua os placeholders `TODO` em
-[`app/page.tsx`](app/page.tsx): nome do(a) aniversariante, data/horário,
-local e o texto do convite.
-
-## Deploy no Vercel
-
-1. Suba o repositório para o GitHub.
-2. Em [vercel.com](https://vercel.com) → **Add New Project** → importe o repositório.
-3. Configure as mesmas 4 variáveis de ambiente do `.env.local` no painel do Vercel.
-4. Deploy — pushes na branch principal geram deploy automático.
