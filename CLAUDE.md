@@ -17,7 +17,7 @@ schema ou estilo — eles têm as especificações completas.
 - **Estilização:** Tailwind CSS
 - **Banco de dados:** Supabase (Postgres)
 - **Animação de áudio:** Howler.js
-- **Exportação de planilha:** lib `xlsx` (SheetJS)
+- **Exportação de confirmações:** PDF client-side com `jsPDF`
 - **Deploy:** Vercel
 
 Detalhes e justificativas completas em `docs/tech-stack.md`.
@@ -30,7 +30,7 @@ Detalhes e justificativas completas em `docs/tech-stack.md`.
    editar/deletar pelo visitante).
 3. **Área admin (`/admin`)** — protegida por senha única (variável de
    ambiente, NÃO hardcoded). Lista todas as confirmações e permite exportar
-   para `.xlsx` ou `.csv` com um clique.
+   um PDF (nome + status de confirmação) com um clique.
 4. **Efeitos sonoros** — tocam em interações-chave (ex: clique no botão de
    confirmar, hover em botões). Ver `docs/design-reference.md` para
    sugestões de sons e fontes gratuitas. Sempre com opção de mute — nunca
@@ -46,7 +46,6 @@ Detalhes e justificativas completas em `docs/tech-stack.md`.
   /page.tsx              → página principal do convite
   /admin/page.tsx         → área administrativa (protegida)
   /api/rsvp/route.ts      → POST (criar confirmação) / GET (listar, uso admin)
-  /api/export/route.ts    → GET protegido, gera e retorna o arquivo .xlsx/.csv
 /components
   /RsvpForm.tsx
   /SoundButton.tsx        → wrapper reutilizável para botões com efeito sonoro
@@ -85,3 +84,13 @@ Detalhes e justificativas completas em `docs/tech-stack.md`.
   transparentes sobre fundo com textura de papel), não a ilustração
   line-art simples. Ver `docs/design-reference.md` para especificação
   completa do componente de sticker, fontes e responsividade.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

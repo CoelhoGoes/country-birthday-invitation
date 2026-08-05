@@ -17,16 +17,14 @@
   permitidas por RLS (Row Level Security) no client, e a **service role
   key** apenas em Route Handlers server-side (nunca exposta ao browser).
 
-## Exportação de planilha: lib `xlsx` (SheetJS)
-- Gera arquivo `.xlsx` real (abre direto no Excel/Google Sheets) a partir
-  de um array de objetos JS.
-- Alternativa mais simples se preferir: gerar `.csv` puro (sem
-  dependências), já que o requisito também aceita "txt simples".
-- Rota `/api/export` deve:
-  1. Validar a senha de admin (header ou query param).
-  2. Buscar todos os registros no Supabase.
-  3. Montar a planilha e retornar como download (`Content-Disposition:
-     attachment`).
+## Exportação de confirmações: PDF via `jsPDF` (client-side)
+
+- Gerado direto no navegador a partir dos dados já carregados na tela do
+  admin (`AdminDashboard`), sem rota de API dedicada — evita manter uma
+  dependência extra (`xlsx`/SheetJS) só para isso.
+- Conteúdo do PDF: apenas nome e status de confirmação (Sim/Não) de cada
+  convidado, seguindo o mesmo padrão de `lib/giftListPdf.ts`.
+- Implementado em `lib/rsvpPdf.ts` (`downloadRsvpPdf`).
 
 ## Efeitos sonoros: Howler.js
 - Mais confiável que `<audio>` puro em navegadores mobile (lida melhor com

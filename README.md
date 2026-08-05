@@ -16,7 +16,8 @@ na raiz para as regras gerais.
 - **RSVP** — visitante informa nome e confirma presença; as respostas ficam
   registradas no banco.
 - **Área administrativa (`/admin`)** — protegida por senha, lista as
-  confirmações recebidas e permite exportar a lista para `.xlsx`.
+  confirmações recebidas e permite exportar um PDF (nome + status) com um
+  clique.
 - **Efeitos sonoros** — tocam em interações-chave (RSVP, hover em botões),
   com controle de mute persistente.
 - **Lista de presentes** — seção com as sugestões de presente e download do
@@ -28,7 +29,7 @@ na raiz para as regras gerais.
 - **Tailwind CSS**
 - **Supabase** (Postgres) — via `@supabase/supabase-js`
 - **Howler.js** — efeitos sonoros
-- **xlsx** (SheetJS) — exportação de planilha
+- **jsPDF** — exportação de confirmações e lista de presentes em PDF
 - Deploy: **Vercel**
 
 ## Estrutura do projeto
@@ -43,7 +44,6 @@ app/
                                  decide entre login e dashboard via cookie)
   api/
     rsvp/route.ts              → POST público (criar RSVP) / GET protegido (listar)
-    export/route.ts            → GET protegido, gera e retorna .xlsx
     admin/login/route.ts       → POST (login) / DELETE (logout) — seta/limpa
                                   o cookie de sessão admin
 

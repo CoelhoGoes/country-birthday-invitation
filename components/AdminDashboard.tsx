@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { downloadRsvpPdf } from "@/lib/rsvpPdf";
 
 export type Rsvp = {
   id: string;
@@ -24,12 +25,13 @@ export function AdminDashboard({ rsvps }: { rsvps: Rsvp[] }) {
         <header className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="font-display text-3xl text-marrom-dark">Confirmações — RSVP</h1>
           <div className="flex gap-2">
-            <a
-              href="/api/export"
+            <button
+              type="button"
+              onClick={() => downloadRsvpPdf(rsvps)}
               className="rounded-md border-2 border-marrom-dark bg-marrom px-4 py-2 font-body font-semibold text-prata-light shadow-md transition hover:bg-marrom-dark"
             >
-              ⬇️ Exportar .xlsx
-            </a>
+              ⬇️ Exportar PDF
+            </button>
             <button
               type="button"
               onClick={handleLogout}
