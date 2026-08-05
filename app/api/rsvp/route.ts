@@ -31,7 +31,8 @@ export async function POST(request: NextRequest) {
 // Uso administrativo: lista todas as confirmações. Protegido por cookie de
 // sessão admin (definido em /api/admin/login após validar ADMIN_PASSWORD).
 export async function GET() {
-  const cookieValue = cookies().get(ADMIN_COOKIE_NAME)?.value;
+  const cookieStore = await cookies();
+  const cookieValue = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
 
   if (!isValidAdminPassword(cookieValue)) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });

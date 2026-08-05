@@ -5,7 +5,8 @@ import { AdminLoginForm } from "@/components/AdminLoginForm";
 import { AdminDashboard } from "@/components/AdminDashboard";
 
 export default async function AdminPage() {
-  const cookieValue = cookies().get(ADMIN_COOKIE_NAME)?.value;
+  const cookieStore = await cookies();
+  const cookieValue = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
   const authenticated = isValidAdminPassword(cookieValue);
 
   if (!authenticated) {
