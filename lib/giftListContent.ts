@@ -30,6 +30,7 @@ export const giftCategories: GiftCategory[] = [
       "Produtos de cabelo (coisas pra ondulada)",
       "Óleo corporal (amo demais)",
       "Sabonete (amo)",
+      "Bodysplash",
     ],
   },
   {
@@ -72,6 +73,7 @@ export const giftCategories: GiftCategory[] = [
       "Livros — gosto muito de literatura brasileira, livros de suspense e romance",
       "Capa de celular (iPhone 12)",
       "Coisas de natação",
+      "Coisas de Crochê",
       "Coisas de filme (Whiplash, Interestelar) e séries (Friends, Game of Thrones, House of the Dragon, Gilmore Girls, PLL, The Walking Dead, Sex and the City, Grey's Anatomy)",
     ],
   },
