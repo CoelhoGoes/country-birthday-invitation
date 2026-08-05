@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { referencesConfig } from "@/lib/referencesConfig";
 
 function shuffle<T>(array: T[]): T[] {
@@ -14,11 +14,7 @@ function shuffle<T>(array: T[]): T[] {
 
 export function ReferencesGrid() {
   const [selected, setSelected] = useState<string | null>(null);
-  const [images, setImages] = useState(referencesConfig);
-
-  useEffect(() => {
-    setImages(shuffle(referencesConfig));
-  }, []);
+  const [images] = useState(() => shuffle(referencesConfig));
 
   return (
     <>
