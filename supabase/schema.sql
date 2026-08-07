@@ -11,3 +11,18 @@ create policy "Permitir insercao publica"
   on rsvps for insert
   to anon
   with check (true);
+
+create function rsvps_normalize_name()
+returns trigger as $$
+begin
+  new.name := initcap(trim(new.name));
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger rsvps_normalize_name_trigger
+  before insert or update on rsvps
+  for each row
+  execute function rsvps_normalize_name();
+
+create unique index rsvps_name_unique_idx on rsvps (lower(name));

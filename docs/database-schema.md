@@ -10,6 +10,7 @@
 | `created_at` | `timestamptz` | `default now()` — data/hora do registro       |
 
 ### SQL de criação
+
 ```sql
 create table rsvps (
   id uuid primary key default gen_random_uuid(),
@@ -29,12 +30,36 @@ create policy "Permitir insercao publica"
 -- SELECT completo (para listagem/exportação) só deve acontecer via
 -- service role key, em rota server-side protegida por senha — não criar
 -- policy de SELECT para o role "anon".
+
+-- Normaliza o nome (trim + Title Case) antes de inserir/atualizar.
+create function rsvps_normalize_name()
+returns trigger as $$
+begin
+  new.name := initcap(trim(new.name));
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger rsvps_normalize_name_trigger
+  before insert or update on rsvps
+  for each row
+  execute function rsvps_normalize_name();
+
+-- Bloqueia nomes duplicados (case-insensitive).
+create unique index rsvps_name_unique_idx on rsvps (lower(name));
 ```
 
-## Observações
-- Não há necessidade de UPDATE/DELETE pelo convidado no escopo atual. Se
-  no futuro quiser permitir que a pessoa corrija o próprio RSVP, considerar
-  adicionar um campo de identificação (ex: e-mail) e políticas adicionais.
-- Nomes duplicados são permitidos por padrão (duas pessoas podem ter o
-  mesmo nome). Se quiser evitar duplicados exatos, avaliar com o usuário
-  antes de adicionar constraint `unique`.
+## Regras de dados
+
+- **Normalização**: todo `name` é salvo em Title Case (`initcap`) e sem
+  espaços nas pontas, via trigger — vale tanto para o INSERT público quanto
+  para UPDATE feito pelo admin.
+- **Duplicidade**: nomes duplicados (case-insensitive) são rejeitados pelo
+  índice único `rsvps_name_unique_idx`. Uma tentativa de INSERT/UPDATE que
+  viole isso retorna o erro Postgres `23505` (`unique_violation`), que as
+  rotas em `app/api/rsvp/**` traduzem para uma resposta `409` amigável.
+- **Ordenação alfabética**: não é uma propriedade armazenada da tabela —
+  é responsabilidade de cada query de leitura usar `order by name asc`
+  (ver `app/api/rsvp/route.ts` e `app/api/rsvp/public/route.ts`).
+- Não há UPDATE/DELETE pelo convidado no formulário público — essas
+  operações só existem via `/admin` (rotas protegidas por senha).
