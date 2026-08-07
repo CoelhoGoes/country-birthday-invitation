@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { SoundButton } from "@/components/SoundButton";
 import { CollageSticker } from "@/components/CollageSticker";
-import { GiftAndReferencesTabs } from "@/components/GiftAndReferencesTabs";
+import { Tabs } from "@/components/Tabs";
 import {
   buildPlainTextGiftList,
   giftCategories,
@@ -131,7 +131,7 @@ export function MobileGiftListSection() {
         />
       </div>
 
-      <GiftAndReferencesTabs giftListPanel={giftListPanel} />
+      <Tabs giftListPanel={giftListPanel} />
     </section>
   );
 }
