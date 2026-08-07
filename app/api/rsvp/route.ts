@@ -22,6 +22,9 @@ export async function POST(request: NextRequest) {
   const { error } = await supabase.from("rsvps").insert({ name, confirmed });
 
   if (error) {
+    if (error.code === "23505") {
+      return NextResponse.json({ error: "Esse nome já confirmou presença." }, { status: 409 });
+    }
     return NextResponse.json({ error: "Não foi possível salvar sua confirmação." }, { status: 500 });
   }
 
@@ -41,7 +44,7 @@ export async function GET() {
   const { data, error } = await supabaseAdmin
     .from("rsvps")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("name", { ascending: true });
 
   if (error) {
     return NextResponse.json({ error: "Erro ao buscar confirmações." }, { status: 500 });

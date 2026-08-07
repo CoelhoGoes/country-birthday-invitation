@@ -16,7 +16,7 @@ export default async function AdminPage() {
   const { data, error } = await supabaseAdmin
     .from("rsvps")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("name", { ascending: true });
 
   if (error) {
     return (
