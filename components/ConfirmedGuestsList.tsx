@@ -56,7 +56,7 @@ export function ConfirmedGuestsList() {
         <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {names.map((name) => (
             <li key={name} className="font-body text-marrom-dark">
-              🤠 {name}
+              - {name}
             </li>
           ))}
         </ul>
